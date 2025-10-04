@@ -14,9 +14,6 @@ import { Route as _authRouteRouteImport } from './routes/__auth/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
-import { Route as AdminModulesRouteImport } from './routes/admin/modules'
-import { Route as AdminLessonsRouteImport } from './routes/admin/lessons'
-import { Route as AdminCoursesRouteImport } from './routes/admin/courses'
 import { Route as _authSignupRouteImport } from './routes/__auth/signup'
 import { Route as _authResetPasswordRouteImport } from './routes/__auth/reset-password'
 import { Route as _authLoginRouteImport } from './routes/__auth/login'
@@ -44,21 +41,6 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
 const AdminUsersRoute = AdminUsersRouteImport.update({
   id: '/users',
   path: '/users',
-  getParentRoute: () => AdminRouteRoute,
-} as any)
-const AdminModulesRoute = AdminModulesRouteImport.update({
-  id: '/modules',
-  path: '/modules',
-  getParentRoute: () => AdminRouteRoute,
-} as any)
-const AdminLessonsRoute = AdminLessonsRouteImport.update({
-  id: '/lessons',
-  path: '/lessons',
-  getParentRoute: () => AdminRouteRoute,
-} as any)
-const AdminCoursesRoute = AdminCoursesRouteImport.update({
-  id: '/courses',
-  path: '/courses',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const _authSignupRoute = _authSignupRouteImport.update({
@@ -89,9 +71,6 @@ export interface FileRoutesByFullPath {
   '/login': typeof _authLoginRoute
   '/reset-password': typeof _authResetPasswordRoute
   '/signup': typeof _authSignupRoute
-  '/admin/courses': typeof AdminCoursesRoute
-  '/admin/lessons': typeof AdminLessonsRoute
-  '/admin/modules': typeof AdminModulesRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -101,9 +80,6 @@ export interface FileRoutesByTo {
   '/login': typeof _authLoginRoute
   '/reset-password': typeof _authResetPasswordRoute
   '/signup': typeof _authSignupRoute
-  '/admin/courses': typeof AdminCoursesRoute
-  '/admin/lessons': typeof AdminLessonsRoute
-  '/admin/modules': typeof AdminModulesRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin': typeof AdminIndexRoute
 }
@@ -116,9 +92,6 @@ export interface FileRoutesById {
   '/__auth/login': typeof _authLoginRoute
   '/__auth/reset-password': typeof _authResetPasswordRoute
   '/__auth/signup': typeof _authSignupRoute
-  '/admin/courses': typeof AdminCoursesRoute
-  '/admin/lessons': typeof AdminLessonsRoute
-  '/admin/modules': typeof AdminModulesRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/': typeof AdminIndexRoute
 }
@@ -131,9 +104,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/reset-password'
     | '/signup'
-    | '/admin/courses'
-    | '/admin/lessons'
-    | '/admin/modules'
     | '/admin/users'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
@@ -143,9 +113,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/reset-password'
     | '/signup'
-    | '/admin/courses'
-    | '/admin/lessons'
-    | '/admin/modules'
     | '/admin/users'
     | '/admin'
   id:
@@ -157,9 +124,6 @@ export interface FileRouteTypes {
     | '/__auth/login'
     | '/__auth/reset-password'
     | '/__auth/signup'
-    | '/admin/courses'
-    | '/admin/lessons'
-    | '/admin/modules'
     | '/admin/users'
     | '/admin/'
   fileRoutesById: FileRoutesById
@@ -205,27 +169,6 @@ declare module '@tanstack/react-router' {
       path: '/users'
       fullPath: '/admin/users'
       preLoaderRoute: typeof AdminUsersRouteImport
-      parentRoute: typeof AdminRouteRoute
-    }
-    '/admin/modules': {
-      id: '/admin/modules'
-      path: '/modules'
-      fullPath: '/admin/modules'
-      preLoaderRoute: typeof AdminModulesRouteImport
-      parentRoute: typeof AdminRouteRoute
-    }
-    '/admin/lessons': {
-      id: '/admin/lessons'
-      path: '/lessons'
-      fullPath: '/admin/lessons'
-      preLoaderRoute: typeof AdminLessonsRouteImport
-      parentRoute: typeof AdminRouteRoute
-    }
-    '/admin/courses': {
-      id: '/admin/courses'
-      path: '/courses'
-      fullPath: '/admin/courses'
-      preLoaderRoute: typeof AdminCoursesRouteImport
       parentRoute: typeof AdminRouteRoute
     }
     '/__auth/signup': {
@@ -278,17 +221,11 @@ const _authRouteRouteWithChildren = _authRouteRoute._addFileChildren(
 )
 
 interface AdminRouteRouteChildren {
-  AdminCoursesRoute: typeof AdminCoursesRoute
-  AdminLessonsRoute: typeof AdminLessonsRoute
-  AdminModulesRoute: typeof AdminModulesRoute
   AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
-  AdminCoursesRoute: AdminCoursesRoute,
-  AdminLessonsRoute: AdminLessonsRoute,
-  AdminModulesRoute: AdminModulesRoute,
   AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
