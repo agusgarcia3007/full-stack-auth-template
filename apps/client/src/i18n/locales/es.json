@@ -1,0 +1,152 @@
+{
+  "auth": {
+    "login": {
+      "title": "Inicia sesión en tu cuenta",
+      "subtitle": "Ingresa tu correo electrónico para iniciar sesión",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "submit": "Iniciar sesión",
+      "noAccount": "¿No tienes una cuenta?",
+      "signupLink": "Regístrate"
+    },
+    "signup": {
+      "title": "Crear una cuenta",
+      "subtitle": "Ingresa tu información para comenzar",
+      "name": "Nombre",
+      "namePlaceholder": "Juan Pérez",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "submit": "Crear cuenta",
+      "haveAccount": "¿Ya tienes una cuenta?",
+      "loginLink": "Inicia sesión"
+    },
+    "forgotPassword": {
+      "title": "¿Olvidaste tu contraseña?",
+      "subtitle": "Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña",
+      "email": "Correo electrónico",
+      "submit": "Enviar enlace de restablecimiento",
+      "rememberPassword": "¿Recuerdas tu contraseña?",
+      "backToLogin": "Volver al inicio de sesión"
+    },
+    "resetPassword": {
+      "title": "Restablecer tu contraseña",
+      "subtitle": "Ingresa tu nueva contraseña a continuación",
+      "newPassword": "Nueva contraseña",
+      "confirmPassword": "Confirmar contraseña",
+      "submit": "Restablecer contraseña",
+      "rememberPassword": "¿Recuerdas tu contraseña?",
+      "backToLogin": "Volver al inicio de sesión"
+    },
+    "validation": {
+      "emailInvalid": "Correo electrónico inválido",
+      "passwordMin6": "La contraseña debe tener al menos 6 caracteres",
+      "passwordMin8": "La contraseña debe tener al menos 8 caracteres",
+      "nameRequired": "El nombre es obligatorio",
+      "passwordsDontMatch": "Las contraseñas no coinciden"
+    }
+  },
+  "common": {
+    "emailPlaceholder": "correo@ejemplo.com",
+    "unexpected_error": "Ocurrió un error inesperado"
+  },
+  "errors": {
+    "EMAIL_ALREADY_EXISTS": "El correo electrónico ya está registrado",
+    "INVALID_CREDENTIALS": "Credenciales inválidas",
+    "INVALID_INPUT": "Datos de entrada inválidos",
+    "INTERNAL_ERROR": "Error interno del servidor",
+    "INVALID_RESET_TOKEN": "Token de restablecimiento inválido o expirado"
+  },
+  "dataTable": {
+    "operators": {
+      "text": {
+        "contains": "Contiene",
+        "notContains": "No contiene",
+        "is": "Es",
+        "isNot": "No es",
+        "isEmpty": "Está vacío",
+        "isNotEmpty": "No está vacío"
+      },
+      "numeric": {
+        "is": "Es",
+        "isNot": "No es",
+        "isLessThan": "Es menor que",
+        "isLessThanOrEqual": "Es menor o igual que",
+        "isGreaterThan": "Es mayor que",
+        "isGreaterThanOrEqual": "Es mayor o igual que",
+        "isBetween": "Está entre",
+        "isEmpty": "Está vacío",
+        "isNotEmpty": "No está vacío"
+      },
+      "date": {
+        "is": "Es",
+        "isNot": "No es",
+        "isBefore": "Es antes de",
+        "isAfter": "Es después de",
+        "isOnOrBefore": "Es en o antes de",
+        "isOnOrAfter": "Es en o después de",
+        "isBetween": "Está entre",
+        "isRelativeToToday": "Es relativo a hoy",
+        "isEmpty": "Está vacío",
+        "isNotEmpty": "No está vacío"
+      },
+      "select": {
+        "is": "Es",
+        "isNot": "No es",
+        "isEmpty": "Está vacío",
+        "isNotEmpty": "No está vacío"
+      },
+      "multiSelect": {
+        "hasAnyOf": "Tiene alguno de",
+        "hasNoneOf": "No tiene ninguno de",
+        "isEmpty": "Está vacío",
+        "isNotEmpty": "No está vacío"
+      },
+      "boolean": {
+        "is": "Es",
+        "isNot": "No es"
+      }
+    },
+    "sortOrders": {
+      "asc": "Ascendente",
+      "desc": "Descendente"
+    },
+    "actions": {
+      "reset": "Reiniciar",
+      "hide": "Ocultar",
+      "apply": "Aplicar",
+      "clear": "Limpiar"
+    },
+    "noResults": "No hay resultados.",
+    "noResultsFound": "No se encontraron resultados.",
+    "columns": "Columnas",
+    "searchColumns": "Buscar columnas...",
+    "noColumnsFound": "No se encontraron columnas.",
+    "filters": "Filtros",
+    "pagination": {
+      "of": "de",
+      "rowsSelected": "fila(s) seleccionada(s)",
+      "rowsPerPage": "Filas por página",
+      "page": "Página"
+    }
+  },
+  "users": {
+    "title": "Usuarios",
+    "empty": {
+      "title": "No hay usuarios",
+      "description": "Los usuarios aparecerán aquí una vez que se registren en la plataforma."
+    },
+    "filters": {
+      "name": "Nombre",
+      "email": "Email",
+      "role": "Rol",
+      "namePlaceholder": "Filtrar por nombre...",
+      "emailPlaceholder": "Filtrar por email...",
+      "rolePlaceholder": "Seleccionar rol"
+    }
+  },
+  "roles": {
+    "admin": "Admin",
+    "user": "Usuario"
+  }
+}

@@ -1,0 +1,152 @@
+{
+  "auth": {
+    "login": {
+      "title": "Sign in to your account",
+      "subtitle": "Enter your email to sign in to your account",
+      "email": "Email",
+      "password": "Password",
+      "forgotPassword": "Forgot your password?",
+      "submit": "Sign in",
+      "noAccount": "Don't have an account?",
+      "signupLink": "Sign up"
+    },
+    "signup": {
+      "title": "Create an account",
+      "subtitle": "Enter your information to get started",
+      "name": "Name",
+      "namePlaceholder": "John Doe",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Create account",
+      "haveAccount": "Already have an account?",
+      "loginLink": "Sign in"
+    },
+    "forgotPassword": {
+      "title": "Forgot your password?",
+      "subtitle": "Enter your email and we'll send you a link to reset your password",
+      "email": "Email",
+      "submit": "Send reset link",
+      "rememberPassword": "Remember your password?",
+      "backToLogin": "Back to sign in"
+    },
+    "resetPassword": {
+      "title": "Reset your password",
+      "subtitle": "Enter your new password below",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm password",
+      "submit": "Reset password",
+      "rememberPassword": "Remember your password?",
+      "backToLogin": "Back to sign in"
+    },
+    "validation": {
+      "emailInvalid": "Invalid email",
+      "passwordMin6": "Password must be at least 6 characters",
+      "passwordMin8": "Password must be at least 8 characters",
+      "nameRequired": "Name is required",
+      "passwordsDontMatch": "Passwords don't match"
+    }
+  },
+  "common": {
+    "emailPlaceholder": "email@example.com",
+    "unexpected_error": "An unexpected error occurred"
+  },
+  "errors": {
+    "EMAIL_ALREADY_EXISTS": "Email already registered",
+    "INVALID_CREDENTIALS": "Invalid credentials",
+    "INVALID_INPUT": "Invalid input data",
+    "INTERNAL_ERROR": "Internal server error",
+    "INVALID_RESET_TOKEN": "Invalid or expired reset token"
+  },
+  "dataTable": {
+    "operators": {
+      "text": {
+        "contains": "Contains",
+        "notContains": "Does not contain",
+        "is": "Is",
+        "isNot": "Is not",
+        "isEmpty": "Is empty",
+        "isNotEmpty": "Is not empty"
+      },
+      "numeric": {
+        "is": "Is",
+        "isNot": "Is not",
+        "isLessThan": "Is less than",
+        "isLessThanOrEqual": "Is less than or equal to",
+        "isGreaterThan": "Is greater than",
+        "isGreaterThanOrEqual": "Is greater than or equal to",
+        "isBetween": "Is between",
+        "isEmpty": "Is empty",
+        "isNotEmpty": "Is not empty"
+      },
+      "date": {
+        "is": "Is",
+        "isNot": "Is not",
+        "isBefore": "Is before",
+        "isAfter": "Is after",
+        "isOnOrBefore": "Is on or before",
+        "isOnOrAfter": "Is on or after",
+        "isBetween": "Is between",
+        "isRelativeToToday": "Is relative to today",
+        "isEmpty": "Is empty",
+        "isNotEmpty": "Is not empty"
+      },
+      "select": {
+        "is": "Is",
+        "isNot": "Is not",
+        "isEmpty": "Is empty",
+        "isNotEmpty": "Is not empty"
+      },
+      "multiSelect": {
+        "hasAnyOf": "Has any of",
+        "hasNoneOf": "Has none of",
+        "isEmpty": "Is empty",
+        "isNotEmpty": "Is not empty"
+      },
+      "boolean": {
+        "is": "Is",
+        "isNot": "Is not"
+      }
+    },
+    "sortOrders": {
+      "asc": "Ascending",
+      "desc": "Descending"
+    },
+    "actions": {
+      "reset": "Reset",
+      "hide": "Hide",
+      "apply": "Apply",
+      "clear": "Clear"
+    },
+    "noResults": "No results.",
+    "noResultsFound": "No results found.",
+    "columns": "Columns",
+    "searchColumns": "Search columns...",
+    "noColumnsFound": "No columns found.",
+    "filters": "Filters",
+    "pagination": {
+      "of": "of",
+      "rowsSelected": "row(s) selected",
+      "rowsPerPage": "Rows per page",
+      "page": "Page"
+    }
+  },
+  "users": {
+    "title": "Users",
+    "empty": {
+      "title": "No users",
+      "description": "Users will appear here once they register on the platform."
+    },
+    "filters": {
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "namePlaceholder": "Filter by name...",
+      "emailPlaceholder": "Filter by email...",
+      "rolePlaceholder": "Select role"
+    }
+  },
+  "roles": {
+    "admin": "Admin",
+    "user": "User"
+  }
+}

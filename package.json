@@ -1,0 +1,29 @@
+{
+  "name": "sied",
+  "module": "index.ts",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "packageManager": "bun@1.2.2",
+  "private": true,
+  "scripts": {
+    "dev": "bun --filter=* dev",
+    "dev:client": "bun --filter=client dev",
+    "dev:server": "bun --filter=server dev",
+    "build": "bun run --parallel build:*",
+    "build:client": "bun run --filter=client build",
+    "build:server": "bun run --filter=server build"
+  },
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "dependencies": {
+    "i18next": "^25.5.3",
+    "react-i18next": "^16.0.0"
+  }
+}

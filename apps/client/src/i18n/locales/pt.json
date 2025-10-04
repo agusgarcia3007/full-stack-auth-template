@@ -1,0 +1,152 @@
+{
+  "auth": {
+    "login": {
+      "title": "Faça login na sua conta",
+      "subtitle": "Digite seu e-mail para fazer login na sua conta",
+      "email": "E-mail",
+      "password": "Senha",
+      "forgotPassword": "Esqueceu sua senha?",
+      "submit": "Entrar",
+      "noAccount": "Não tem uma conta?",
+      "signupLink": "Cadastre-se"
+    },
+    "signup": {
+      "title": "Criar uma conta",
+      "subtitle": "Digite suas informações para começar",
+      "name": "Nome",
+      "namePlaceholder": "João Silva",
+      "email": "E-mail",
+      "password": "Senha",
+      "submit": "Criar conta",
+      "haveAccount": "Já tem uma conta?",
+      "loginLink": "Faça login"
+    },
+    "forgotPassword": {
+      "title": "Esqueceu sua senha?",
+      "subtitle": "Digite seu e-mail e enviaremos um link para redefinir sua senha",
+      "email": "E-mail",
+      "submit": "Enviar link de redefinição",
+      "rememberPassword": "Lembra sua senha?",
+      "backToLogin": "Voltar ao login"
+    },
+    "resetPassword": {
+      "title": "Redefinir sua senha",
+      "subtitle": "Digite sua nova senha abaixo",
+      "newPassword": "Nova senha",
+      "confirmPassword": "Confirmar senha",
+      "submit": "Redefinir senha",
+      "rememberPassword": "Lembra sua senha?",
+      "backToLogin": "Voltar ao login"
+    },
+    "validation": {
+      "emailInvalid": "E-mail inválido",
+      "passwordMin6": "A senha deve ter pelo menos 6 caracteres",
+      "passwordMin8": "A senha deve ter pelo menos 8 caracteres",
+      "nameRequired": "O nome é obrigatório",
+      "passwordsDontMatch": "As senhas não coincidem"
+    }
+  },
+  "common": {
+    "emailPlaceholder": "email@exemplo.com",
+    "unexpected_error": "Ocorreu um erro inesperado"
+  },
+  "errors": {
+    "EMAIL_ALREADY_EXISTS": "O e-mail já está registrado",
+    "INVALID_CREDENTIALS": "Credenciais inválidas",
+    "INVALID_INPUT": "Dados de entrada inválidos",
+    "INTERNAL_ERROR": "Erro interno do servidor",
+    "INVALID_RESET_TOKEN": "Token de redefinição inválido ou expirado"
+  },
+  "dataTable": {
+    "operators": {
+      "text": {
+        "contains": "Contém",
+        "notContains": "Não contém",
+        "is": "É",
+        "isNot": "Não é",
+        "isEmpty": "Está vazio",
+        "isNotEmpty": "Não está vazio"
+      },
+      "numeric": {
+        "is": "É",
+        "isNot": "Não é",
+        "isLessThan": "É menor que",
+        "isLessThanOrEqual": "É menor ou igual a",
+        "isGreaterThan": "É maior que",
+        "isGreaterThanOrEqual": "É maior ou igual a",
+        "isBetween": "Está entre",
+        "isEmpty": "Está vazio",
+        "isNotEmpty": "Não está vazio"
+      },
+      "date": {
+        "is": "É",
+        "isNot": "Não é",
+        "isBefore": "É antes de",
+        "isAfter": "É depois de",
+        "isOnOrBefore": "É em ou antes de",
+        "isOnOrAfter": "É em ou depois de",
+        "isBetween": "Está entre",
+        "isRelativeToToday": "É relativo a hoje",
+        "isEmpty": "Está vazio",
+        "isNotEmpty": "Não está vazio"
+      },
+      "select": {
+        "is": "É",
+        "isNot": "Não é",
+        "isEmpty": "Está vazio",
+        "isNotEmpty": "Não está vazio"
+      },
+      "multiSelect": {
+        "hasAnyOf": "Tem algum de",
+        "hasNoneOf": "Não tem nenhum de",
+        "isEmpty": "Está vazio",
+        "isNotEmpty": "Não está vazio"
+      },
+      "boolean": {
+        "is": "É",
+        "isNot": "Não é"
+      }
+    },
+    "sortOrders": {
+      "asc": "Ascendente",
+      "desc": "Descendente"
+    },
+    "actions": {
+      "reset": "Redefinir",
+      "hide": "Ocultar",
+      "apply": "Aplicar",
+      "clear": "Limpar"
+    },
+    "noResults": "Nenhum resultado.",
+    "noResultsFound": "Nenhum resultado encontrado.",
+    "columns": "Colunas",
+    "searchColumns": "Pesquisar colunas...",
+    "noColumnsFound": "Nenhuma coluna encontrada.",
+    "filters": "Filtros",
+    "pagination": {
+      "of": "de",
+      "rowsSelected": "linha(s) selecionada(s)",
+      "rowsPerPage": "Linhas por página",
+      "page": "Página"
+    }
+  },
+  "users": {
+    "title": "Usuários",
+    "empty": {
+      "title": "Nenhum usuário",
+      "description": "Os usuários aparecerão aqui assim que se registrarem na plataforma."
+    },
+    "filters": {
+      "name": "Nome",
+      "email": "E-mail",
+      "role": "Função",
+      "namePlaceholder": "Filtrar por nome...",
+      "emailPlaceholder": "Filtrar por e-mail...",
+      "rolePlaceholder": "Selecionar função"
+    }
+  },
+  "roles": {
+    "admin": "Admin",
+    "user": "Usuário"
+  }
+}
