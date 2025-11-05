@@ -1,13 +1,7 @@
 {
-  "name": "sied",
+  "name": "full-stack-template",
   "module": "index.ts",
-  "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
-  },
-  "packageManager": "bun@1.2.2",
+  "packageManager": "bun@1.3.1",
   "private": true,
   "scripts": {
     "dev": "bun --filter=* dev",
@@ -21,9 +15,5 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ],
-  "dependencies": {
-    "i18next": "^25.5.3",
-    "react-i18next": "^16.0.0"
-  }
+  ]
 }
