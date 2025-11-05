@@ -131,7 +131,7 @@ auth.post("/signup", async (c) => {
         400
       );
     }
-    console.error((error as Error).message);
+    console.error("Signup error:", error);
     return c.json(
       { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
       500
@@ -314,7 +314,7 @@ auth.post("/forgot-password", async (c) => {
         400
       );
     }
-    console.error((error as Error).message);
+    console.error("Forgot password error:", error);
     return c.json(
       { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
       500
@@ -373,7 +373,7 @@ auth.post("/reset-password", async (c) => {
         400
       );
     }
-    console.error((error as Error).message);
+    console.error("Reset password error:", error);
     return c.json(
       { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
       500
@@ -432,7 +432,7 @@ auth.post("/verify-email", async (c) => {
         400
       );
     }
-    console.error((error as Error).message);
+    console.error("Verify email error:", error);
     return c.json(
       { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
       500
@@ -511,7 +511,7 @@ auth.post("/resend-verification", async (c) => {
         400
       );
     }
-    console.error((error as Error).message);
+    console.error("Resend verification error:", error);
     return c.json(
       { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
       500

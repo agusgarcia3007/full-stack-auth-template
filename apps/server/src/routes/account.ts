@@ -87,7 +87,7 @@ account.patch("/password", async (c) => {
         400
       );
     }
-    console.error((error as Error).message);
+    console.error(error);
     return c.json(
       { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
       500
@@ -185,7 +185,7 @@ account.patch("/email", async (c) => {
         400
       );
     }
-    console.error((error as Error).message);
+    console.error(error);
     return c.json(
       { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
       500
@@ -258,7 +258,7 @@ account.post("/verify-email-change", async (c) => {
         400
       );
     }
-    console.error((error as Error).message);
+    console.error(error);
     return c.json(
       { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
       500
