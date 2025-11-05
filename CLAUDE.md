@@ -115,3 +115,22 @@ For more information, read the Bun API docs in `node_modules/bun-types/docs/**.m
 - NEVER attempt to run the project (e.g., no `npm run dev`, `bun run dev`, `bun --hot index.ts`, or similar commands) because it is already running in development mode.
 - NEVER include comments in the generated or edited code. If documentation is needed, use JSDoc above functions or types, but keep source code clean without inline comments.
 - when including text ALWAYS create the translations in `i18n/locales/es.json` and `i18n/locales/en.json`
+
+## Zod Validation
+
+Use modern Zod v3.24+ syntax:
+
+- Use `z.email()` instead of `z.string().email()`
+- Use `z.uuid()` instead of `z.string().uuid()`
+- Use `z.url()` instead of `z.string().url()`
+- Use `z.date()` instead of `z.string().datetime()`
+
+Example:
+```ts
+const schema = z.object({
+  email: z.email(),
+  userId: z.uuid(),
+  website: z.url(),
+  birthdate: z.date(),
+});
+```

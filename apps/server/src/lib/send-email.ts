@@ -6,7 +6,7 @@ const resend = new Resend(env.RESEND_API_KEY);
 
 export async function sendEmail(to: string, subject: string, body: string) {
   const { data, error } = await resend.emails.send({
-    from: "reely <noreply@reely.com>",
+    from: env.EMAIL_FROM,
     to,
     subject,
     html: body,

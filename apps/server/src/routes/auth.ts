@@ -9,12 +9,20 @@ import {
   generateRefreshToken,
   revokeToken,
   verifyToken,
+  getUserActiveSessions,
+  revokeSession,
+  revokeAllUserTokens,
 } from "@/lib/auth";
 import { z } from "zod";
 import { logger } from "@/lib/logger";
 import { sendEmail } from "@/lib/send-email";
 import { env } from "@/lib/env";
 import { ERROR_CODES } from "@/constants/error-codes";
+import {
+  renderWelcomeVerification,
+  renderPasswordReset,
+  renderResendVerification,
+} from "@/emails/templates";
 
 const auth = new Hono();
 
@@ -36,6 +44,14 @@ const forgotPasswordSchema = z.object({
 const resetPasswordSchema = z.object({
   token: z.string(),
   password: z.string().min(8),
+});
+
+const verifyEmailSchema = z.object({
+  token: z.string(),
+});
+
+const resendVerificationSchema = z.object({
+  email: z.email(),
 });
 
 auth.post("/signup", async (c) => {
@@ -60,18 +76,38 @@ auth.post("/signup", async (c) => {
     }
 
     const passwordHash = await hashPassword(password);
+    const verificationToken = crypto.randomUUID();
+    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
-    const [user] = await db
-      .insert(usersTable)
-      .values({
-        email,
-        passwordHash,
-        name,
-      })
-      .returning();
+    const user = await db.transaction(async (tx) => {
+      const [newUser] = await tx
+        .insert(usersTable)
+        .values({
+          email,
+          passwordHash,
+          name,
+        })
+        .returning();
+
+      await tx.insert(tokensTable).values({
+        userId: newUser.id,
+        token: verificationToken,
+        type: "email_verification",
+        expiresAt,
+      });
+
+      return newUser;
+    });
 
     const accessToken = await generateAccessToken(user.id, user.role);
     const refreshToken = await generateRefreshToken(user.id, user.role);
+
+    const verificationUrl = `${env.CLIENT_URL}/verify-email?token=${verificationToken}`;
+    const emailTemplate = renderWelcomeVerification({ verificationUrl });
+
+    sendEmail(email, emailTemplate.subject, emailTemplate.html).catch((error) =>
+      logger.error("Failed to send verification email:", error)
+    );
 
     return c.json({
       user: {
@@ -79,9 +115,11 @@ auth.post("/signup", async (c) => {
         email: user.email,
         name: user.name,
         role: user.role,
+        emailVerified: user.emailVerified,
       },
       accessToken,
       refreshToken,
+      message: "Please check your email to verify your account",
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -178,13 +216,10 @@ auth.post("/logout", async (c) => {
 
 auth.post("/refresh", async (c) => {
   try {
-    logger.info("[AUTH] Refresh token request received");
     const body = await c.req.json();
-    logger.info("[AUTH] Request body:", body);
     const { refreshToken } = body;
 
     if (!refreshToken) {
-      logger.warn("[AUTH] Refresh token missing");
       return c.json(
         {
           error: "Refresh token required",
@@ -194,11 +229,9 @@ auth.post("/refresh", async (c) => {
       );
     }
 
-    logger.info("[AUTH] Verifying refresh token");
     const userId = await verifyToken(refreshToken);
 
     if (!userId) {
-      logger.warn("[AUTH] Invalid or expired refresh token");
       return c.json(
         {
           error: "Invalid or expired refresh token",
@@ -208,7 +241,6 @@ auth.post("/refresh", async (c) => {
       );
     }
 
-    logger.info("[AUTH] Token verified, fetching user:", { userId });
     const [user] = await db
       .select()
       .from(usersTable)
@@ -216,21 +248,17 @@ auth.post("/refresh", async (c) => {
       .limit(1);
 
     if (!user) {
-      logger.warn("[AUTH] User not found:", { userId });
       return c.json(
         { error: "User not found", code: ERROR_CODES.USER_NOT_FOUND },
         404
       );
     }
 
-    logger.info("[AUTH] Revoking old refresh token");
     await revokeToken(refreshToken);
 
-    logger.info("[AUTH] Generating new tokens");
     const accessToken = await generateAccessToken(userId, user.role);
     const newRefreshToken = await generateRefreshToken(userId, user.role);
 
-    logger.info("[AUTH] Token refresh successful");
     return c.json({ accessToken, refreshToken: newRefreshToken });
   } catch (error) {
     logger.error("[AUTH] Token refresh error:", { error });
@@ -256,9 +284,8 @@ auth.post("/forgot-password", async (c) => {
       });
     }
 
-    // Generate reset token
     const resetToken = crypto.randomUUID();
-    const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+    const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
 
     await db.insert(tokensTable).values({
       userId: user.id,
@@ -267,17 +294,11 @@ auth.post("/forgot-password", async (c) => {
       expiresAt,
     });
 
-    // Send email with reset link
     const resetUrl = `${env.CLIENT_URL}/reset-password?token=${resetToken}`;
-    await sendEmail(
-      email,
-      "Reset your password",
-      `
-        <h1>Reset your password</h1>
-        <p>Click the link below to reset your password:</p>
-        <a href="${resetUrl}">${resetUrl}</a>
-        <p>This link will expire in 1 hour.</p>
-      `
+    const emailTemplate = renderPasswordReset({ resetUrl });
+
+    sendEmail(email, emailTemplate.subject, emailTemplate.html).catch((error) =>
+      logger.error("Failed to send password reset email:", error)
     );
 
     return c.json({
@@ -342,6 +363,144 @@ auth.post("/reset-password", async (c) => {
       .where(eq(tokensTable.id, resetToken.id));
 
     return c.json({ message: "Password reset successfully" });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return c.json(
+        {
+          error: "Invalid input",
+          code: ERROR_CODES.INVALID_INPUT,
+          details: error.issues,
+        },
+        400
+      );
+    }
+    logger.error((error as Error).message);
+    return c.json(
+      { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
+      500
+    );
+  }
+});
+
+auth.post("/verify-email", async (c) => {
+  try {
+    const body = await c.req.json();
+    const { token } = verifyEmailSchema.parse(body);
+
+    const [verificationToken] = await db
+      .select()
+      .from(tokensTable)
+      .where(
+        and(
+          eq(tokensTable.token, token),
+          eq(tokensTable.type, "email_verification"),
+          eq(tokensTable.revoked, false)
+        )
+      )
+      .limit(1);
+
+    if (!verificationToken || verificationToken.expiresAt < new Date()) {
+      return c.json(
+        {
+          error: "Invalid or expired verification token",
+          code: ERROR_CODES.INVALID_TOKEN,
+        },
+        400
+      );
+    }
+
+    await db.transaction(async (tx) => {
+      await tx
+        .update(usersTable)
+        .set({ emailVerified: true })
+        .where(eq(usersTable.id, verificationToken.userId));
+
+      await tx
+        .update(tokensTable)
+        .set({ revoked: true, revokedAt: new Date() })
+        .where(eq(tokensTable.id, verificationToken.id));
+    });
+
+    return c.json({ message: "Email verified successfully" });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return c.json(
+        {
+          error: "Invalid input",
+          code: ERROR_CODES.INVALID_INPUT,
+          details: error.issues,
+        },
+        400
+      );
+    }
+    logger.error((error as Error).message);
+    return c.json(
+      { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
+      500
+    );
+  }
+});
+
+auth.post("/resend-verification", async (c) => {
+  try {
+    const body = await c.req.json();
+    const { email } = resendVerificationSchema.parse(body);
+
+    const [user] = await db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.email, email))
+      .limit(1);
+
+    if (!user) {
+      return c.json(
+        { message: "If the email exists, a verification email has been sent" }
+      );
+    }
+
+    if (user.emailVerified) {
+      return c.json(
+        {
+          error: "Email already verified",
+          code: ERROR_CODES.EMAIL_ALREADY_VERIFIED,
+        },
+        400
+      );
+    }
+
+    const verificationToken = crypto.randomUUID();
+    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
+
+    await db.transaction(async (tx) => {
+      await tx
+        .update(tokensTable)
+        .set({ revoked: true, revokedAt: new Date() })
+        .where(
+          and(
+            eq(tokensTable.userId, user.id),
+            eq(tokensTable.type, "email_verification"),
+            eq(tokensTable.revoked, false)
+          )
+        );
+
+      await tx.insert(tokensTable).values({
+        userId: user.id,
+        token: verificationToken,
+        type: "email_verification",
+        expiresAt,
+      });
+    });
+
+    const verificationUrl = `${env.CLIENT_URL}/verify-email?token=${verificationToken}`;
+    const emailTemplate = renderResendVerification({ verificationUrl });
+
+    sendEmail(email, emailTemplate.subject, emailTemplate.html).catch((error) =>
+      logger.error("Failed to send verification email:", error)
+    );
+
+    return c.json({
+      message: "If the email exists, a verification email has been sent",
+    });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return c.json(

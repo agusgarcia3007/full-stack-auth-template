@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { db } from "@/db";
 import { usersTable } from "@/db/schema";
-import { eq, count, desc, asc } from "drizzle-orm";
+import { eq, count, desc, asc, sql } from "drizzle-orm";
 import { z } from "zod";
 import { hashPassword } from "@/lib/auth";
 import { authMiddleware } from "@/middleware/auth";
@@ -19,6 +19,15 @@ import { ERROR_CODES } from "@/constants/error-codes";
 const users = new Hono<{ Variables: Variables }>();
 
 users.use("*", authMiddleware, requireAdmin);
+
+const COLUMN_MAP = {
+  id: usersTable.id,
+  email: usersTable.email,
+  name: usersTable.name,
+  role: usersTable.role,
+  createdAt: usersTable.createdAt,
+  updatedAt: usersTable.updatedAt,
+} as const;
 
 const createUserSchema = z.object({
   email: z.email(),
@@ -38,38 +47,17 @@ users.get("/", async (c) => {
   try {
     const { pagination, sorting, filters } = parseQueryParams(c.req.query());
 
-    const whereClause = buildFiltersCondition(filters, {
-      id: usersTable.id,
-      email: usersTable.email,
-      name: usersTable.name,
-      role: usersTable.role,
-      createdAt: usersTable.createdAt,
-      updatedAt: usersTable.updatedAt,
-    });
-
-    const [{ total }] = await db
-      .select({ total: count() })
-      .from(usersTable)
-      .where(whereClause);
-
-    const columnMap: Record<string, any> = {
-      id: usersTable.id,
-      email: usersTable.email,
-      name: usersTable.name,
-      role: usersTable.role,
-      createdAt: usersTable.createdAt,
-      updatedAt: usersTable.updatedAt,
-    };
+    const whereClause = buildFiltersCondition(filters, COLUMN_MAP);
 
     const orderByClause =
       sorting.length > 0
         ? sorting.map((sort) => {
-            const column = columnMap[sort.id] || usersTable.createdAt;
+            const column = COLUMN_MAP[sort.id as keyof typeof COLUMN_MAP] || usersTable.createdAt;
             return sort.desc ? desc(column) : asc(column);
           })
         : [desc(usersTable.createdAt)];
 
-    const allUsers = await db
+    const result = await db
       .select({
         id: usersTable.id,
         email: usersTable.email,
@@ -77,12 +65,16 @@ users.get("/", async (c) => {
         role: usersTable.role,
         createdAt: usersTable.createdAt,
         updatedAt: usersTable.updatedAt,
+        total: sql<number>`count(*) over()`.as("total"),
       })
       .from(usersTable)
       .where(whereClause)
       .orderBy(...orderByClause)
       .limit(pagination.limit)
       .offset(getOffset(pagination.page, pagination.limit));
+
+    const total = result.length > 0 ? result[0].total : 0;
+    const allUsers = result.map(({ total, ...user }) => user);
 
     return c.json(createPaginatedResponse(allUsers, total, pagination));
   } catch (error) {

@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { tokensTable } from "@/db/schema";
 import { env } from "@/lib/env";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { sign, verify } from "hono/jwt";
 
 export async function hashPassword(password: string): Promise<string> {
@@ -17,6 +17,12 @@ export async function verifyPassword(
   return await Bun.password.verify(password, hash);
 }
 
+async function hashToken(token: string): Promise<string> {
+  const hasher = new Bun.CryptoHasher("sha256");
+  hasher.update(token);
+  return hasher.digest("hex");
+}
+
 export async function generateAccessToken(userId: string, role: string): Promise<string> {
   const expiresAt = new Date();
   expiresAt.setMinutes(expiresAt.getMinutes() + 15);
@@ -29,10 +35,11 @@ export async function generateAccessToken(userId: string, role: string): Promise
   };
 
   const token = await sign(payload, env.JWT_SECRET);
+  const tokenHash = await hashToken(token);
 
   await db.insert(tokensTable).values({
     userId,
-    token,
+    token: tokenHash,
     type: "access",
     expiresAt,
   });
@@ -52,10 +59,11 @@ export async function generateRefreshToken(userId: string, role: string): Promis
   };
 
   const token = await sign(payload, env.JWT_SECRET);
+  const tokenHash = await hashToken(token);
 
   await db.insert(tokensTable).values({
     userId,
-    token,
+    token: tokenHash,
     type: "refresh",
     expiresAt,
   });
@@ -66,11 +74,12 @@ export async function generateRefreshToken(userId: string, role: string): Promis
 export async function verifyToken(token: string): Promise<string | null> {
   try {
     const payload = await verify(token, env.JWT_SECRET);
+    const tokenHash = await hashToken(token);
 
     const [dbToken] = await db
       .select()
       .from(tokensTable)
-      .where(eq(tokensTable.token, token))
+      .where(eq(tokensTable.token, tokenHash))
       .limit(1);
 
     if (!dbToken || dbToken.revoked || dbToken.expiresAt < new Date()) {
@@ -84,13 +93,14 @@ export async function verifyToken(token: string): Promise<string | null> {
 }
 
 export async function revokeToken(token: string): Promise<void> {
+  const tokenHash = await hashToken(token);
   await db
     .update(tokensTable)
     .set({
       revoked: true,
       revokedAt: new Date(),
     })
-    .where(eq(tokensTable.token, token));
+    .where(eq(tokensTable.token, tokenHash));
 }
 
 export async function revokeAllUserTokens(userId: string): Promise<void> {
@@ -101,4 +111,42 @@ export async function revokeAllUserTokens(userId: string): Promise<void> {
       revokedAt: new Date(),
     })
     .where(eq(tokensTable.userId, userId));
+}
+
+export async function getUserActiveSessions(userId: string) {
+  const sessions = await db
+    .select({
+      id: tokensTable.id,
+      createdAt: tokensTable.createdAt,
+      expiresAt: tokensTable.expiresAt,
+    })
+    .from(tokensTable)
+    .where(
+      and(
+        eq(tokensTable.userId, userId),
+        eq(tokensTable.type, "refresh"),
+        eq(tokensTable.revoked, false)
+      )
+    );
+
+  return sessions;
+}
+
+export async function revokeSession(sessionId: string, userId: string): Promise<boolean> {
+  const result = await db
+    .update(tokensTable)
+    .set({
+      revoked: true,
+      revokedAt: new Date(),
+    })
+    .where(
+      and(
+        eq(tokensTable.id, sessionId),
+        eq(tokensTable.userId, userId),
+        eq(tokensTable.type, "refresh")
+      )
+    )
+    .returning();
+
+  return result.length > 0;
 }
