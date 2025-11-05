@@ -9,7 +9,6 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "bun-logs": "^0.1.5",
     "drizzle-orm": "^0.44.5",
     "hono": "^4.9.9",
     "hono-rate-limiter": "^0.4.2",

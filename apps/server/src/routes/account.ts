@@ -8,7 +8,6 @@ import { hashPassword, verifyPassword, revokeAllUserTokens } from "@/lib/auth";
 import { sendEmail } from "@/lib/send-email";
 import { env } from "@/lib/env";
 import { ERROR_CODES } from "@/constants/error-codes";
-import { logger } from "@/lib/logger";
 import { z } from "zod";
 import { renderEmailChangeVerification } from "@/emails/templates";
 
@@ -88,7 +87,7 @@ account.patch("/password", async (c) => {
         400
       );
     }
-    logger.error((error as Error).message);
+    console.error((error as Error).message);
     return c.json(
       { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
       500
@@ -169,7 +168,7 @@ account.patch("/email", async (c) => {
     const emailTemplate = renderEmailChangeVerification({ verificationUrl });
 
     sendEmail(email, emailTemplate.subject, emailTemplate.html).catch((error) =>
-      logger.error("Failed to send email change verification:", error)
+      console.error("Failed to send email change verification:", error)
     );
 
     return c.json({
@@ -186,7 +185,7 @@ account.patch("/email", async (c) => {
         400
       );
     }
-    logger.error((error as Error).message);
+    console.error((error as Error).message);
     return c.json(
       { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
       500
@@ -259,7 +258,7 @@ account.post("/verify-email-change", async (c) => {
         400
       );
     }
-    logger.error((error as Error).message);
+    console.error((error as Error).message);
     return c.json(
       { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
       500

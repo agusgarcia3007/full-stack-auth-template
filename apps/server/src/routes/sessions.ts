@@ -3,7 +3,6 @@ import type { Variables } from "@/types/hono";
 import { authMiddleware } from "@/middleware/auth";
 import { getUserActiveSessions, revokeSession, revokeAllUserTokens } from "@/lib/auth";
 import { ERROR_CODES } from "@/constants/error-codes";
-import { logger } from "@/lib/logger";
 import { z } from "zod";
 
 const sessions = new Hono<{ Variables: Variables }>();
@@ -21,7 +20,7 @@ sessions.get("/", async (c) => {
 
     return c.json({ sessions: activeSessions });
   } catch (error) {
-    logger.error((error as Error).message);
+    console.error((error as Error).message);
     return c.json(
       { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
       500
@@ -60,7 +59,7 @@ sessions.delete("/:sessionId", async (c) => {
         400
       );
     }
-    logger.error((error as Error).message);
+    console.error((error as Error).message);
     return c.json(
       { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
       500
@@ -75,7 +74,7 @@ sessions.delete("/", async (c) => {
 
     return c.json({ message: "All sessions revoked successfully" });
   } catch (error) {
-    logger.error((error as Error).message);
+    console.error((error as Error).message);
     return c.json(
       { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
       500

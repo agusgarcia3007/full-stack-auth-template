@@ -14,7 +14,6 @@ import {
   revokeAllUserTokens,
 } from "@/lib/auth";
 import { z } from "zod";
-import { logger } from "@/lib/logger";
 import { sendEmail } from "@/lib/send-email";
 import { env } from "@/lib/env";
 import { ERROR_CODES } from "@/constants/error-codes";
@@ -106,7 +105,7 @@ auth.post("/signup", async (c) => {
     const emailTemplate = renderWelcomeVerification({ verificationUrl });
 
     sendEmail(email, emailTemplate.subject, emailTemplate.html).catch((error) =>
-      logger.error("Failed to send verification email:", error)
+      console.error("Failed to send verification email:", error)
     );
 
     return c.json({
@@ -132,7 +131,7 @@ auth.post("/signup", async (c) => {
         400
       );
     }
-    logger.error((error as Error).message);
+    console.error((error as Error).message);
     return c.json(
       { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
       500
@@ -261,7 +260,7 @@ auth.post("/refresh", async (c) => {
 
     return c.json({ accessToken, refreshToken: newRefreshToken });
   } catch (error) {
-    logger.error("[AUTH] Token refresh error:", { error });
+    console.error("[AUTH] Token refresh error:", error);
     return c.json({ error: "Internal server error" }, 500);
   }
 });
@@ -298,7 +297,7 @@ auth.post("/forgot-password", async (c) => {
     const emailTemplate = renderPasswordReset({ resetUrl });
 
     sendEmail(email, emailTemplate.subject, emailTemplate.html).catch((error) =>
-      logger.error("Failed to send password reset email:", error)
+      console.error("Failed to send password reset email:", error)
     );
 
     return c.json({
@@ -315,7 +314,7 @@ auth.post("/forgot-password", async (c) => {
         400
       );
     }
-    logger.error((error as Error).message);
+    console.error((error as Error).message);
     return c.json(
       { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
       500
@@ -374,7 +373,7 @@ auth.post("/reset-password", async (c) => {
         400
       );
     }
-    logger.error((error as Error).message);
+    console.error((error as Error).message);
     return c.json(
       { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
       500
@@ -433,7 +432,7 @@ auth.post("/verify-email", async (c) => {
         400
       );
     }
-    logger.error((error as Error).message);
+    console.error((error as Error).message);
     return c.json(
       { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
       500
@@ -495,7 +494,7 @@ auth.post("/resend-verification", async (c) => {
     const emailTemplate = renderResendVerification({ verificationUrl });
 
     sendEmail(email, emailTemplate.subject, emailTemplate.html).catch((error) =>
-      logger.error("Failed to send verification email:", error)
+      console.error("Failed to send verification email:", error)
     );
 
     return c.json({
@@ -512,7 +511,7 @@ auth.post("/resend-verification", async (c) => {
         400
       );
     }
-    logger.error((error as Error).message);
+    console.error((error as Error).message);
     return c.json(
       { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
       500

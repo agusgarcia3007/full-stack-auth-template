@@ -13,7 +13,6 @@ import {
   getOffset,
 } from "@/lib/pagination";
 import { buildFiltersCondition } from "@/lib/data-table-filters";
-import { logger } from "@/lib/logger";
 import { ERROR_CODES } from "@/constants/error-codes";
 
 const users = new Hono<{ Variables: Variables }>();
@@ -78,11 +77,7 @@ users.get("/", async (c) => {
 
     return c.json(createPaginatedResponse(allUsers, total, pagination));
   } catch (error) {
-    logger.error("Error fetching users:", {
-      error,
-      message: error instanceof Error ? error.message : "Unknown error",
-      stack: error instanceof Error ? error.stack : undefined,
-    });
+    console.error("Error fetching users:", error);
     return c.json(
       { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
       500
@@ -115,7 +110,7 @@ users.get("/:id", async (c) => {
 
     return c.json({ user });
   } catch (error) {
-    logger.error("Error fetching user:", { error });
+    console.error("Error fetching user:", error);
     return c.json(
       { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
       500
@@ -174,7 +169,7 @@ users.post("/", async (c) => {
         400
       );
     }
-    logger.error("Error creating user:", { error });
+    console.error("Error creating user:", error);
     return c.json(
       { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
       500
@@ -253,7 +248,7 @@ users.patch("/:id", async (c) => {
         400
       );
     }
-    logger.error("Error updating user:", { error });
+    console.error("Error updating user:", error);
     return c.json(
       { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
       500
@@ -290,7 +285,7 @@ users.delete("/:id", async (c) => {
 
     return c.json({ message: "User deleted successfully" });
   } catch (error) {
-    logger.error("Error deleting user:", { error });
+    console.error("Error deleting user:", error);
     return c.json(
       { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
       500
