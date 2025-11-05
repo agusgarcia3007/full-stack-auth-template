@@ -52,7 +52,7 @@ export function DataTableFilters({ filters, title }: DataTableFiltersProps) {
     return config;
   }, [filters]);
 
-  const [urlParams, setUrlParams] = useQueryStates(urlParamsConfig);
+  const [, setUrlParams] = useQueryStates(urlParamsConfig);
 
   const [pendingFilters, setPendingFilters] = useState<
     Record<string, string | undefined>

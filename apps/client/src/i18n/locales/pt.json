@@ -148,5 +148,35 @@
   "roles": {
     "admin": "Admin",
     "user": "Usuário"
+  },
+  "profile": {
+    "general": {
+      "title": "Informações do perfil",
+      "userId": "ID do usuário",
+      "role": "Função"
+    },
+    "sessions": {
+      "title": "Sessões ativas",
+      "description": "Gerencie suas sessões ativas em diferentes dispositivos",
+      "sessionTitle": "Sessão ativa",
+      "currentSession": "Atual",
+      "createdAt": "Criada {{time}}",
+      "expiresAt": "Expira {{time}}",
+      "revokeSession": "Fechar sessão",
+      "revokeAllOthers": "Fechar todas as outras sessões",
+      "confirmRevokeAllTitle": "Tem certeza?",
+      "confirmRevokeAll": "Isso fechará todas as outras sessões ativas. Você precisará fazer login novamente nesses dispositivos.",
+      "noSessions": "Nenhuma sessão ativa",
+      "noSessionsDescription": "Você não tem nenhuma sessão ativa",
+      "sessionRevoked": "Sessão fechada com sucesso",
+      "allSessionsRevoked": "Todas as sessões fechadas com sucesso",
+      "error": "Falha ao carregar as sessões"
+    }
+  },
+  "common": {
+    "emailPlaceholder": "email@exemplo.com",
+    "unexpected_error": "Ocorreu um erro inesperado",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar"
   }
 }

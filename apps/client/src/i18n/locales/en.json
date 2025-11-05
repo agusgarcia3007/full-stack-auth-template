@@ -148,5 +148,35 @@
   "roles": {
     "admin": "Admin",
     "user": "User"
+  },
+  "profile": {
+    "general": {
+      "title": "Profile Information",
+      "userId": "User ID",
+      "role": "Role"
+    },
+    "sessions": {
+      "title": "Active Sessions",
+      "description": "Manage your active sessions across devices",
+      "sessionTitle": "Active Session",
+      "currentSession": "Current",
+      "createdAt": "Created {{time}}",
+      "expiresAt": "Expires {{time}}",
+      "revokeSession": "Close session",
+      "revokeAllOthers": "Close all other sessions",
+      "confirmRevokeAllTitle": "Are you sure?",
+      "confirmRevokeAll": "This will close all other active sessions. You will need to log in again on those devices.",
+      "noSessions": "No active sessions",
+      "noSessionsDescription": "You don't have any active sessions",
+      "sessionRevoked": "Session closed successfully",
+      "allSessionsRevoked": "All sessions closed successfully",
+      "error": "Failed to load sessions"
+    }
+  },
+  "common": {
+    "emailPlaceholder": "email@example.com",
+    "unexpected_error": "An unexpected error occurred",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
   }
 }

@@ -72,7 +72,6 @@ function DataTable<TData, TValue>({
   onPaginationChange,
   onSortingChange,
   onFiltersChange,
-  isLoading = false,
   isSelectable = false,
   children,
 }: DataTableProps<TData, TValue>) {
@@ -156,7 +155,7 @@ function DataTableContent<TData>({
   children,
 }: DataTableContentProps<TData> & { children?: React.ReactNode }) {
   const { table } = useDataTable<TData>();
-  const [emptyContent, setEmptyContent] = useState<React.ReactNode>(null);
+  const [emptyContent] = useState<React.ReactNode>(null);
 
   const renderHeader = (header: Header<TData, unknown>) => {
     if (header.isPlaceholder) return null;
