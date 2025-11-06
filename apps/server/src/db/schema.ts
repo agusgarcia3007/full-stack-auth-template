@@ -20,7 +20,9 @@ export const usersTable = pgTable("users", {
   emailVerified: boolean("email_verified").notNull().default(false),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
-});
+}, (table) => [
+  index("users_email_idx").on(table.email),
+]);
 
 export const tokenTypeEnum = pgEnum("token_type", [
   "access",
@@ -44,12 +46,16 @@ export const tokensTable = pgTable(
     revokedAt: timestamp("revoked_at"),
     createdAt: timestamp("created_at").notNull().defaultNow(),
   },
-  (table) => ({
-    userIdTypeRevokedIdx: index("tokens_user_id_type_revoked_idx").on(
+  (table) => [
+    index("tokens_token_idx").on(table.token),
+    index("tokens_user_id_type_revoked_idx").on(
       table.userId,
       table.type,
       table.revoked
     ),
-    expiresAtIdx: index("tokens_expires_at_idx").on(table.expiresAt),
-  })
+    index("tokens_expires_at_revoked_idx").on(
+      table.expiresAt,
+      table.revoked
+    ),
+  ]
 );

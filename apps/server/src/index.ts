@@ -1,5 +1,6 @@
 import { env } from "@/lib/env";
 import { limiter } from "@/lib/limiter";
+import { securityHeaders } from "@/middleware/security";
 import { account } from "@/routes/account";
 import { dashboard } from "@/routes/admin/dashboard";
 import { users } from "@/routes/admin/users";
@@ -15,6 +16,7 @@ import { serveStatic } from "hono/bun";
 const app = new Hono<{ Variables: Variables }>()
   .use(logger())
   .use(prettyJSON())
+  .use(securityHeaders)
   .use(cors())
   .use(limiter);
 

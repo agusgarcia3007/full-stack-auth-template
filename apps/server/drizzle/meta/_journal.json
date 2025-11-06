@@ -15,6 +15,13 @@
       "when": 1762367795334,
       "tag": "0001_material_galactus",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1762434953633,
+      "tag": "0002_ambitious_revanche",
+      "breakpoints": true
     }
   ]
 }
