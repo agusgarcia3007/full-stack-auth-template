@@ -263,6 +263,9 @@
     "menu": {
       "dashboard": "Painel de controle",
       "users": "Usuários"
+    },
+    "footer": {
+      "backToPlatform": "Voltar à plataforma"
     }
   },
   "filters": {

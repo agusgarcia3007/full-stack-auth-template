@@ -32,6 +32,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { DatePicker, DateRangePicker } from "@/components/ui/date-picker";
 import { cva, type VariantProps } from "class-variance-authority";
 import { AlertCircle, Check, Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -1523,43 +1524,29 @@ function FilterValueSelector<T = unknown>({
   }
 
   if (field.type === "daterange") {
-    const startDate = (values[0] as string) || "";
-    const endDate = (values[1] as string) || "";
+    const startDate = values[0] ? new Date(values[0] as string + "T00:00:00") : undefined;
+    const endDate = values[1] ? new Date(values[1] as string + "T00:00:00") : undefined;
+
+    const formatDateLocal = (date: Date): string => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    };
 
     return (
-      <div
-        className={filterFieldValueVariants({
-          variant: context.variant,
-          size: context.size,
-          cursorPointer: context.cursorPointer,
-        })}
-      >
-        <FilterInput
-          type="date"
-          value={startDate}
-          onChange={(e) => onChange([e.target.value, endDate] as T[])}
-          onInputChange={field.onInputChange}
-          className={cn("w-24", field.className)}
-          field={field}
-        />
-        <div
-          data-slot="filters-between"
-          className={filterFieldBetweenVariants({
-            variant: context.variant,
-            size: context.size,
-          })}
-        >
-          {context.i18n.to}
-        </div>
-        <FilterInput
-          type="date"
-          value={endDate}
-          onChange={(e) => onChange([startDate, e.target.value] as T[])}
-          onInputChange={field.onInputChange}
-          className={cn("w-24", field.className)}
-          field={field}
-        />
-      </div>
+      <DateRangePicker
+        value={{ from: startDate, to: endDate }}
+        onChange={(range) => {
+          const start = range?.from ? formatDateLocal(range.from) : "";
+          const end = range?.to ? formatDateLocal(range.to) : "";
+          onChange([start, end] as T[]);
+          field.onInputChange?.(null as any);
+        }}
+        placeholder={field.placeholder || context.i18n.placeholders.selectField}
+        className={cn("w-auto", field.className)}
+        numberOfMonths={1}
+      />
     );
   }
 
@@ -1630,14 +1617,25 @@ function FilterValueSelector<T = unknown>({
   }
 
   if (field.type === "date") {
+    const dateValue = values[0] ? new Date(values[0] as string + "T00:00:00") : undefined;
+
+    const formatDateLocal = (date: Date): string => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    };
+
     return (
-      <FilterInput
-        type="date"
-        value={(values[0] as string) || ""}
-        onChange={(e) => onChange([e.target.value] as T[])}
-        onInputChange={field.onInputChange}
-        field={field}
-        className={cn("w-16", field.className)}
+      <DatePicker
+        value={dateValue}
+        onChange={(date) => {
+          const dateStr = date ? formatDateLocal(date) : "";
+          onChange([dateStr] as T[]);
+          field.onInputChange?.(null as any);
+        }}
+        placeholder={field.placeholder || context.i18n.placeholders.selectField}
+        className={cn("w-auto", field.className)}
       />
     );
   }

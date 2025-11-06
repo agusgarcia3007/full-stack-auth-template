@@ -44,20 +44,40 @@ export function buildFilterCondition(
   if (isDateField) {
     const dateValue = new Date(value);
     switch (operator) {
-      case "before":
-        return lt(column, dateValue);
-      case "after":
-        return gt(column, dateValue);
-      case "is":
-        return eq(column, dateValue);
-      case "is_not":
-        return ne(column, dateValue);
+      case "before": {
+        const endOfDay = new Date(dateValue);
+        endOfDay.setHours(23, 59, 59, 999);
+        return lte(column, endOfDay);
+      }
+      case "after": {
+        const startOfDay = new Date(dateValue);
+        startOfDay.setHours(0, 0, 0, 0);
+        return gte(column, startOfDay);
+      }
+      case "is": {
+        const startOfDay = new Date(dateValue);
+        startOfDay.setHours(0, 0, 0, 0);
+        const endOfDay = new Date(dateValue);
+        endOfDay.setHours(23, 59, 59, 999);
+        return and(gte(column, startOfDay), lte(column, endOfDay));
+      }
+      case "is_not": {
+        const startOfDay = new Date(dateValue);
+        startOfDay.setHours(0, 0, 0, 0);
+        const endOfDay = new Date(dateValue);
+        endOfDay.setHours(23, 59, 59, 999);
+        return ne(column, and(gte(column, startOfDay), lte(column, endOfDay)) as any);
+      }
       case "between": {
         const [start, end] = value.split(",");
         if (start && end) {
+          const startDate = new Date(start);
+          startDate.setHours(0, 0, 0, 0);
+          const endDate = new Date(end);
+          endDate.setHours(23, 59, 59, 999);
           return and(
-            gte(column, new Date(start)),
-            lte(column, new Date(end))
+            gte(column, startDate),
+            lte(column, endDate)
           );
         }
         return undefined;

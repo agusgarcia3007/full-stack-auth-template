@@ -40,12 +40,14 @@ interface EditUserDialogProps {
   user: User;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  isCurrentUser?: boolean;
 }
 
 export function EditUserDialog({
   user,
   open,
   onOpenChange,
+  isCurrentUser = false,
 }: EditUserDialogProps) {
   const { t } = useTranslation();
   const isMobile = useIsMobile();
@@ -164,6 +166,7 @@ export function EditUserDialog({
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  disabled={isCurrentUser}
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -205,10 +208,8 @@ export function EditUserDialog({
               >
                 {t("users.edit.cancel")}
               </Button>
-              <Button type="submit" disabled={updateUser.isPending}>
-                {updateUser.isPending
-                  ? t("users.edit.saving")
-                  : t("users.edit.save")}
+              <Button type="submit" isLoading={updateUser.isPending}>
+                {t("users.edit.save")}
               </Button>
             </div>
           )}

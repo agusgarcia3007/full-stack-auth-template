@@ -1,10 +1,11 @@
+import { ArrowLeft, LayoutDashboard, Users } from "lucide-react";
 import * as React from "react";
-import { LayoutDashboard, Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -94,6 +95,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroup>
         ))}
       </SidebarContent>
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <Link to="/">
+                <ArrowLeft className="size-4" />
+                <span>{t("admin.footer.backToPlatform")}</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );

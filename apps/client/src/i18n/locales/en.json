@@ -263,6 +263,9 @@
     "menu": {
       "dashboard": "Dashboard",
       "users": "Users"
+    },
+    "footer": {
+      "backToPlatform": "Back to platform"
     }
   },
   "filters": {

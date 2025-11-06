@@ -277,9 +277,10 @@ describe("Authentication", () => {
 DATABASE_URL=postgresql://user:password@localhost:5432/dbname
 PORT=3000
 JWT_SECRET=your-secret-key-min-32-chars
-RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxx
+RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 CLIENT_URL=http://localhost:5173
 EMAIL_FROM=noreply@yourdomain.com
+TZ=America/Argentina/Buenos_Aires
 ```
 
 **Client** (`apps/client/.env`):
@@ -288,6 +289,12 @@ VITE_API_URL=http://localhost:3000
 ```
 
 **Always validate environment variables** with Zod schemas in `lib/env.ts`
+
+**Timezone Configuration:**
+- `TZ` sets the **server** timezone for all date/time operations
+- Client only displays dates from server without timezone conversion
+- Use IANA timezone names (e.g., `America/Argentina/Buenos_Aires`, `America/New_York`, `Europe/London`)
+- Defaults to `UTC` if not specified
 
 ### Database Migrations
 

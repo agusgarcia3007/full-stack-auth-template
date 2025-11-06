@@ -188,7 +188,12 @@ function ActionsCell({ user }: { user: User }) {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <EditUserDialog user={user} open={openEdit} onOpenChange={setOpenEdit} />
+      <EditUserDialog
+        user={user}
+        open={openEdit}
+        onOpenChange={setOpenEdit}
+        isCurrentUser={isCurrentUser}
+      />
     </>
   );
 }

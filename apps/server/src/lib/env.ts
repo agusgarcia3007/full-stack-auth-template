@@ -7,6 +7,7 @@ export const envSchema = z.object({
   RESEND_API_KEY: z.string(),
   CLIENT_URL: z.url(),
   EMAIL_FROM: z.email(),
+  TZ: z.string().default("UTC"),
 });
 
 export const env = envSchema.parse(process.env);
