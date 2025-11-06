@@ -394,12 +394,15 @@ function DataGridTableBodyRowCell<TData>({
 function DataGridTableEmpty() {
   const { table, props } = useDataGrid();
   const totalColumns = table.getAllColumns().length;
+  const isReactNode = typeof props.emptyMessage !== "string";
 
   return (
     <tr>
       <td
         colSpan={totalColumns}
-        className="text-center text-muted-foreground py-6"
+        className={cn(
+          isReactNode ? "p-0" : "text-center text-muted-foreground py-6"
+        )}
       >
         {props.emptyMessage || "No data available"}
       </td>

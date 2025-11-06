@@ -19,6 +19,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useProfile } from "@/services/profile/queries";
+import { Skeleton } from "@/components/ui/skeleton";
 
 function RoleCell({ role }: { role: string }) {
   const { t } = useTranslation();
@@ -42,6 +43,9 @@ export const getColumns = (t: TFunction): ColumnDef<User>[] => [
     enableSorting: false,
     size: 35,
     enableResizing: false,
+    meta: {
+      skeleton: <Skeleton className="h-4 w-4 rounded" />,
+    },
   },
   {
     accessorKey: "name",
@@ -56,6 +60,9 @@ export const getColumns = (t: TFunction): ColumnDef<User>[] => [
     enableSorting: true,
     enableHiding: false,
     enableResizing: true,
+    meta: {
+      skeleton: <Skeleton className="h-4 w-32" />,
+    },
   },
   {
     accessorKey: "email",
@@ -70,6 +77,9 @@ export const getColumns = (t: TFunction): ColumnDef<User>[] => [
     enableSorting: true,
     enableHiding: true,
     enableResizing: true,
+    meta: {
+      skeleton: <Skeleton className="h-4 w-48" />,
+    },
   },
   {
     accessorKey: "role",
@@ -85,6 +95,9 @@ export const getColumns = (t: TFunction): ColumnDef<User>[] => [
     enableSorting: true,
     enableHiding: true,
     enableResizing: true,
+    meta: {
+      skeleton: <Skeleton className="h-5 w-20 rounded-full" />,
+    },
   },
   {
     accessorKey: "createdAt",
@@ -105,6 +118,9 @@ export const getColumns = (t: TFunction): ColumnDef<User>[] => [
     enableSorting: true,
     enableHiding: true,
     enableResizing: true,
+    meta: {
+      skeleton: <Skeleton className="h-4 w-36" />,
+    },
   },
   {
     accessorKey: "updatedAt",
@@ -125,6 +141,9 @@ export const getColumns = (t: TFunction): ColumnDef<User>[] => [
     enableSorting: true,
     enableHiding: true,
     enableResizing: true,
+    meta: {
+      skeleton: <Skeleton className="h-4 w-36" />,
+    },
   },
   {
     id: "actions",
@@ -137,6 +156,9 @@ export const getColumns = (t: TFunction): ColumnDef<User>[] => [
     enableSorting: false,
     enableHiding: false,
     enableResizing: false,
+    meta: {
+      skeleton: <Skeleton className="h-8 w-8 rounded" />,
+    },
   },
 ];
 

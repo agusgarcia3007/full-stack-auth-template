@@ -27,6 +27,8 @@ import {
 import { useTranslation } from "react-i18next";
 import { Filters, type Filter } from "@/components/ui/filters";
 import { useUsersFilterFields } from "@/components/users-filters-config";
+import { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyMedia } from "@/components/ui/empty";
+import { Users } from "lucide-react";
 
 export const Route = createFileRoute("/admin/users")({
   component: RouteComponent,
@@ -56,7 +58,7 @@ function RouteComponent() {
     }, {} as Record<string, string>);
   }, [filters]);
 
-  const { data } = useUsersList({
+  const { data, isLoading, isPending } = useUsersList({
     page: pagination.pageIndex + 1,
     limit: pagination.pageSize,
     sorting: sorting.map((s) => ({ id: s.id, desc: s.desc })),
@@ -156,6 +158,19 @@ function RouteComponent() {
       <DataGrid
         table={table}
         recordCount={data?.pagination.total ?? 0}
+        isLoading={isLoading || isPending}
+        loadingMode="skeleton"
+        emptyMessage={
+          <Empty className="border-0">
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <Users />
+              </EmptyMedia>
+              <EmptyTitle>{t("users.empty.title")}</EmptyTitle>
+              <EmptyDescription>{t("users.empty.description")}</EmptyDescription>
+            </EmptyHeader>
+          </Empty>
+        }
         tableLayout={{
           columnsPinnable: true,
           columnsResizable: true,
