@@ -9,9 +9,7 @@ import {
   generateRefreshToken,
   revokeToken,
   verifyToken,
-  getUserActiveSessions,
-  revokeSession,
-  revokeAllUserTokens,
+  cleanupRevokedTokens,
 } from "@/lib/auth";
 import { z } from "zod";
 import { sendEmail } from "@/lib/send-email";
@@ -190,6 +188,7 @@ auth.post("/login", async (c) => {
         400
       );
     }
+    console.error("Login error:", error);
     return c.json(
       { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
       500
@@ -205,7 +204,13 @@ auth.post("/logout", async (c) => {
     }
 
     const token = authHeader.substring(7);
+    const userId = await verifyToken(token);
+
     await revokeToken(token);
+
+    if (userId) {
+      await cleanupRevokedTokens(userId);
+    }
 
     return c.json({ message: "Logged out successfully" });
   } catch {

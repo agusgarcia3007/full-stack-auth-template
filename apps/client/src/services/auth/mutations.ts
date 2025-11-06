@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { catchAxiosError } from "@/lib/catch-axios-error";
-import { saveTokens } from "@/lib/auth";
+import { saveTokens, clearTokens } from "@/lib/auth";
 import { AuthService } from "./service";
 
 export function useLoginMutation() {
@@ -52,5 +52,21 @@ export function useResetPasswordMutation() {
     mutationFn: ({ token, password }: { token: string; password: string }) =>
       AuthService.resetPassword(token, password),
     onError: catchAxiosError,
+  });
+}
+
+export function useLogoutMutation() {
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationFn: () => AuthService.logout(),
+    onSuccess: () => {
+      clearTokens();
+      navigate({ to: "/login" });
+    },
+    onError: () => {
+      clearTokens();
+      navigate({ to: "/login" });
+    },
   });
 }

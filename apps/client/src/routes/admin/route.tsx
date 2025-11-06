@@ -15,6 +15,7 @@ import {
 import { Separator } from "@radix-ui/react-separator";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { isAdmin } from "@/lib/auth";
+import { UserMenu } from "@/components/user-menu";
 
 export const Route = createFileRoute("/admin")({
   beforeLoad: () => {
@@ -49,6 +50,9 @@ function RouteComponent() {
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
+          <div className="ml-auto">
+            <UserMenu />
+          </div>
         </header>
         <Outlet />
       </SidebarInset>

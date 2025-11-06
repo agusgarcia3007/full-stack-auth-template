@@ -1,5 +1,7 @@
 {
   "auth": {
+    "loginButton": "Iniciar sesión",
+    "signupButton": "Registrarse",
     "login": {
       "title": "Inicia sesión en tu cuenta",
       "subtitle": "Ingresa tu correo electrónico para iniciar sesión",
@@ -46,9 +48,10 @@
       "passwordsDontMatch": "Las contraseñas no coinciden"
     }
   },
-  "common": {
-    "emailPlaceholder": "correo@ejemplo.com",
-    "unexpected_error": "Ocurrió un error inesperado"
+  "userMenu": {
+    "profile": "Perfil",
+    "logout": "Cerrar sesión",
+    "language": "Idioma"
   },
   "errors": {
     "EMAIL_ALREADY_EXISTS": "El correo electrónico ya está registrado",
@@ -150,8 +153,16 @@
     "user": "Usuario"
   },
   "profile": {
+    "title": "Perfil",
+    "description": "Administra la configuración y preferencias de tu cuenta",
+    "tabs": {
+      "general": "General",
+      "sessions": "Sesiones"
+    },
     "general": {
       "title": "Información del perfil",
+      "name": "Nombre",
+      "email": "Correo electrónico",
       "userId": "ID de usuario",
       "role": "Rol"
     },

@@ -15,6 +15,39 @@ const account = new Hono<{ Variables: Variables }>();
 
 account.use("*", authMiddleware);
 
+account.get("/profile", async (c) => {
+  try {
+    const userId = c.get("userId");
+
+    const [user] = await db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.id, userId))
+      .limit(1);
+
+    if (!user) {
+      return c.json(
+        { error: "User not found", code: ERROR_CODES.USER_NOT_FOUND },
+        404
+      );
+    }
+
+    return c.json({
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+      emailVerified: user.emailVerified,
+    });
+  } catch (error) {
+    console.error(error);
+    return c.json(
+      { error: "Internal server error", code: ERROR_CODES.INTERNAL_ERROR },
+      500
+    );
+  }
+});
+
 const changePasswordSchema = z.object({
   currentPassword: z.string().min(1),
   newPassword: z.string().min(8),

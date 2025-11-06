@@ -1,21 +1,29 @@
 import { useTranslation } from "react-i18next";
-import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 export function LanguageSelector() {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
-  const toggleLanguage = () => {
-    const newLang = i18n.language === "es" ? "pt" : "es";
+  const toggleLanguage = (checked: boolean) => {
+    const newLang = checked ? "en" : "es";
     i18n.changeLanguage(newLang);
   };
+
   return (
-    <Button
-      variant="ghost"
-      size="sm"
-      onClick={toggleLanguage}
-      className="fixed top-4 right-4"
-    >
-      {i18n.language === "es" ? "🇧🇷 PT" : "🇪🇸 ES"}
-    </Button>
+    <div className="flex items-center justify-between gap-2">
+      <Label htmlFor="language-switch" className="cursor-pointer text-sm">
+        {t("userMenu.language")}
+      </Label>
+      <div className="flex items-center gap-2">
+        <span className="text-muted-foreground text-xs">ES</span>
+        <Switch
+          id="language-switch"
+          checked={i18n.language === "en"}
+          onCheckedChange={toggleLanguage}
+        />
+        <span className="text-muted-foreground text-xs">EN</span>
+      </div>
+    </div>
   );
 }

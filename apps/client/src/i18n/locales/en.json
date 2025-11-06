@@ -1,5 +1,7 @@
 {
   "auth": {
+    "loginButton": "Sign in",
+    "signupButton": "Sign up",
     "login": {
       "title": "Sign in to your account",
       "subtitle": "Enter your email to sign in to your account",
@@ -46,9 +48,10 @@
       "passwordsDontMatch": "Passwords don't match"
     }
   },
-  "common": {
-    "emailPlaceholder": "email@example.com",
-    "unexpected_error": "An unexpected error occurred"
+  "userMenu": {
+    "profile": "Profile",
+    "logout": "Logout",
+    "language": "Language"
   },
   "errors": {
     "EMAIL_ALREADY_EXISTS": "Email already registered",
@@ -150,8 +153,16 @@
     "user": "User"
   },
   "profile": {
+    "title": "Profile",
+    "description": "Manage your account settings and preferences",
+    "tabs": {
+      "general": "General",
+      "sessions": "Sessions"
+    },
     "general": {
       "title": "Profile Information",
+      "name": "Name",
+      "email": "Email",
       "userId": "User ID",
       "role": "Role"
     },

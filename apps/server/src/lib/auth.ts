@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { tokensTable } from "@/db/schema";
 import { env } from "@/lib/env";
-import { and, eq } from "drizzle-orm";
+import { and, eq, lt } from "drizzle-orm";
 import { sign, verify } from "hono/jwt";
 
 export async function hashPassword(password: string): Promise<string> {
@@ -149,4 +149,19 @@ export async function revokeSession(sessionId: string, userId: string): Promise<
     .returning();
 
   return result.length > 0;
+}
+
+export async function cleanupRevokedTokens(userId?: string): Promise<void> {
+  const conditions = [
+    eq(tokensTable.revoked, true),
+    lt(tokensTable.expiresAt, new Date())
+  ];
+
+  if (userId) {
+    conditions.push(eq(tokensTable.userId, userId));
+  }
+
+  await db
+    .delete(tokensTable)
+    .where(and(...conditions));
 }

@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "bun run --hot src/index.ts",
     "start": "bun run src/index.ts",
-    "build": "bun build src/index.ts --target=bun --outdir=dist --packages=external",
+    "build": "bunx tsc --skipLibCheck --noEmit && bun build src/index.ts --target=bun --outdir=dist --packages=external",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio"

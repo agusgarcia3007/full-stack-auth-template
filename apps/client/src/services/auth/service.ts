@@ -23,4 +23,9 @@ export class AuthService {
     });
     return data;
   }
+
+  public static async logout() {
+    const { data } = await http.post("/auth/logout");
+    return data;
+  }
 }
