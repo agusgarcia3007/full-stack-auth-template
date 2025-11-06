@@ -50,16 +50,13 @@
   },
   "userMenu": {
     "profile": "Perfil",
+    "adminPanel": "Painel de administração",
     "logout": "Sair",
     "language": "Idioma",
     "theme": "Tema",
     "themeLight": "Claro",
     "themeDark": "Escuro",
     "themeSystem": "Sistema"
-  },
-  "common": {
-    "emailPlaceholder": "email@exemplo.com",
-    "unexpected_error": "Ocorreu um erro inesperado"
   },
   "errors": {
     "EMAIL_ALREADY_EXISTS": "O e-mail já está registrado",
@@ -161,8 +158,16 @@
     "user": "Usuário"
   },
   "profile": {
+    "title": "Perfil",
+    "description": "Gerencie as configurações e preferências da sua conta",
+    "tabs": {
+      "general": "Geral",
+      "sessions": "Sessões"
+    },
     "general": {
       "title": "Informações do perfil",
+      "name": "Nome",
+      "email": "E-mail",
       "userId": "ID do usuário",
       "role": "Função"
     },
@@ -189,5 +194,26 @@
     "unexpected_error": "Ocorreu um erro inesperado",
     "cancel": "Cancelar",
     "confirm": "Confirmar"
+  },
+  "dashboard": {
+    "title": "Painel de controle",
+    "loading": "Carregando painel de controle...",
+    "error": "Erro ao carregar o painel de controle",
+    "totalUsers": {
+      "title": "Usuários totais",
+      "period": "Todos os tempos"
+    },
+    "newUsers": {
+      "title": "Novos usuários",
+      "period": "Últimos 28 dias"
+    },
+    "activeUsers": {
+      "title": "Usuários ativos",
+      "period": "Últimos 28 dias"
+    },
+    "tooltip": {
+      "user": "usuário",
+      "users": "usuários"
+    }
   }
 }

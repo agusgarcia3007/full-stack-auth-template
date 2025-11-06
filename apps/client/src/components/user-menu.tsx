@@ -12,7 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { LanguageSelector } from "@/components/language-selector";
 import { useProfile } from "@/services/profile/queries";
 import { useLogoutMutation } from "@/services/auth/mutations";
-import { User, LogOut } from "lucide-react";
+import { User, LogOut, LayoutDashboard } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 
@@ -75,6 +75,17 @@ export function UserMenu() {
             <span>{t("userMenu.profile")}</span>
           </button>
         </DropdownMenuItem>
+        {profile.role === "admin" && (
+          <DropdownMenuItem asChild>
+            <button
+              onClick={() => navigate({ to: "/admin" })}
+              className="w-full cursor-pointer"
+            >
+              <LayoutDashboard className="h-4 w-4" />
+              <span>{t("userMenu.adminPanel")}</span>
+            </button>
+          </DropdownMenuItem>
+        )}
         <DropdownMenuSeparator />
         <div className="px-2 py-1.5">
           <LanguageSelector />

@@ -50,6 +50,7 @@
   },
   "userMenu": {
     "profile": "Profile",
+    "adminPanel": "Admin Panel",
     "logout": "Logout",
     "language": "Language",
     "theme": "Theme",
@@ -193,5 +194,26 @@
     "unexpected_error": "An unexpected error occurred",
     "cancel": "Cancel",
     "confirm": "Confirm"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "loading": "Loading dashboard...",
+    "error": "Error loading dashboard",
+    "totalUsers": {
+      "title": "Total Users",
+      "period": "All time"
+    },
+    "newUsers": {
+      "title": "New Users",
+      "period": "Last 28 days"
+    },
+    "activeUsers": {
+      "title": "Active Users",
+      "period": "Last 28 days"
+    },
+    "tooltip": {
+      "user": "user",
+      "users": "users"
+    }
   }
 }

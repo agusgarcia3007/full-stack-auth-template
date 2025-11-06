@@ -1,6 +1,7 @@
 import { env } from "@/lib/env";
 import { limiter } from "@/lib/limiter";
 import { account } from "@/routes/account";
+import { dashboard } from "@/routes/admin/dashboard";
 import { users } from "@/routes/admin/users";
 import { auth } from "@/routes/auth";
 import { sessions } from "@/routes/sessions";
@@ -27,6 +28,7 @@ app.get("/", (c) => {
   });
 });
 app.route("/auth", auth);
+app.route("/admin/dashboard", dashboard);
 app.route("/admin/users", users);
 app.route("/sessions", sessions);
 app.route("/account", account);

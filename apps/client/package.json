@@ -31,6 +31,7 @@
     "@radix-ui/react-tooltip": "^1.2.8",
     "@remixicon/react": "^4.7.0",
     "@tailwindcss/vite": "^4.1.14",
+    "@tanstack/db": "^0.4.20",
     "@tanstack/react-query": "^5.90.2",
     "@tanstack/react-router": "^1.132.30",
     "@tanstack/react-table": "^8.21.3",
@@ -66,10 +67,12 @@
     "react-dropzone": "^14.3.8",
     "react-hook-form": "^7.63.0",
     "react-i18next": "^16.2.4",
+    "recharts": "2.15.1",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.14",
     "tippy.js": "^6.3.7",
+    "vaul": "^1.1.2",
     "zod": "^4.1.11"
   },
   "devDependencies": {

@@ -50,6 +50,7 @@
   },
   "userMenu": {
     "profile": "Perfil",
+    "adminPanel": "Panel de administración",
     "logout": "Cerrar sesión",
     "language": "Idioma",
     "theme": "Tema",
@@ -193,5 +194,26 @@
     "unexpected_error": "Ocurrió un error inesperado",
     "cancel": "Cancelar",
     "confirm": "Confirmar"
+  },
+  "dashboard": {
+    "title": "Panel de control",
+    "loading": "Cargando panel de control...",
+    "error": "Error al cargar el panel de control",
+    "totalUsers": {
+      "title": "Usuarios totales",
+      "period": "Todos los tiempos"
+    },
+    "newUsers": {
+      "title": "Nuevos usuarios",
+      "period": "Últimos 28 días"
+    },
+    "activeUsers": {
+      "title": "Usuarios activos",
+      "period": "Últimos 28 días"
+    },
+    "tooltip": {
+      "user": "usuario",
+      "users": "usuarios"
+    }
   }
 }
