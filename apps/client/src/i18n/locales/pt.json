@@ -66,6 +66,15 @@
     "INVALID_RESET_TOKEN": "Token de redefinição inválido ou expirado"
   },
   "dataTable": {
+    "columnHeader": {
+      "asc": "Ascendente",
+      "desc": "Descendente",
+      "pinToLeft": "Fixar à esquerda",
+      "pinToRight": "Fixar à direita",
+      "moveToLeft": "Mover para a esquerda",
+      "moveToRight": "Mover para a direita",
+      "columns": "Colunas"
+    },
     "operators": {
       "text": {
         "contains": "Contém",
@@ -152,6 +161,14 @@
       "emailPlaceholder": "Filtrar por e-mail...",
       "rolePlaceholder": "Selecionar função"
     },
+    "columns": {
+      "name": "Nome",
+      "email": "E-mail",
+      "role": "Função",
+      "createdAt": "Data de criação",
+      "updatedAt": "Data de atualização",
+      "actions": "Ações"
+    },
     "actions": {
       "edit": "Editar",
       "delete": "Excluir"
@@ -234,6 +251,18 @@
     "tooltip": {
       "user": "usuário",
       "users": "usuários"
+    }
+  },
+  "admin": {
+    "title": "Admin",
+    "subtitle": "Painel de administração",
+    "sections": {
+      "general": "Geral",
+      "management": "Gestão"
+    },
+    "menu": {
+      "dashboard": "Painel de controle",
+      "users": "Usuários"
     }
   }
 }

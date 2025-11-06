@@ -1,8 +1,13 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import type { User } from "@/services/users/service";
+import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import { Badge } from "@/components/ui/badge";
-import { DataGridColumnHeader, DataGridTableRowSelect, DataGridTableRowSelectAll } from "@/components/data-grid/crud";
+import {
+  DataGridColumnHeader,
+  DataGridTableRowSelect,
+  DataGridTableRowSelectAll,
+} from "@/components/data-grid/crud";
 import { Button } from "@/components/ui/button";
 import { EditUserDialog } from "@/components/edit-user-dialog";
 import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
@@ -13,6 +18,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useProfile } from "@/services/profile/queries";
 
 function RoleCell({ role }: { role: string }) {
   const { t } = useTranslation();
@@ -27,7 +33,7 @@ function RoleCell({ role }: { role: string }) {
   );
 }
 
-export const columns: ColumnDef<User>[] = [
+export const getColumns = (t: TFunction): ColumnDef<User>[] => [
   {
     accessorKey: "id",
     id: "id",
@@ -41,16 +47,10 @@ export const columns: ColumnDef<User>[] = [
     accessorKey: "name",
     id: "name",
     header: ({ column }) => (
-      <DataGridColumnHeader
-        title="Nombre"
-        visibility={true}
-        column={column}
-      />
+      <DataGridColumnHeader title={t("users.columns.name")} visibility={true} column={column} />
     ),
     cell: ({ row }) => (
-      <div className="font-medium text-foreground">
-        {row.getValue("name")}
-      </div>
+      <div className="font-medium text-foreground">{row.getValue("name")}</div>
     ),
     size: 200,
     enableSorting: true,
@@ -61,16 +61,10 @@ export const columns: ColumnDef<User>[] = [
     accessorKey: "email",
     id: "email",
     header: ({ column }) => (
-      <DataGridColumnHeader
-        title="Email"
-        visibility={true}
-        column={column}
-      />
+      <DataGridColumnHeader title={t("users.columns.email")} visibility={true} column={column} />
     ),
     cell: ({ row }) => (
-      <div className="text-muted-foreground">
-        {row.getValue("email")}
-      </div>
+      <div className="text-muted-foreground">{row.getValue("email")}</div>
     ),
     size: 250,
     enableSorting: true,
@@ -81,11 +75,7 @@ export const columns: ColumnDef<User>[] = [
     accessorKey: "role",
     id: "role",
     header: ({ column }) => (
-      <DataGridColumnHeader
-        title="Rol"
-        visibility={true}
-        column={column}
-      />
+      <DataGridColumnHeader title={t("users.columns.role")} visibility={true} column={column} />
     ),
     cell: ({ row }) => {
       const role = row.getValue("role") as string;
@@ -101,24 +91,44 @@ export const columns: ColumnDef<User>[] = [
     id: "createdAt",
     header: ({ column }) => (
       <DataGridColumnHeader
-        title="Fecha de creación"
+        title={t("users.columns.createdAt")}
         visibility={true}
         column={column}
       />
     ),
     cell: ({ row }) => (
       <div className="text-foreground">
-        {new Date(row.getValue("createdAt")).toLocaleDateString()}
+        {new Date(row.getValue("createdAt")).toLocaleString()}
       </div>
     ),
-    size: 150,
+    size: 180,
+    enableSorting: true,
+    enableHiding: true,
+    enableResizing: true,
+  },
+  {
+    accessorKey: "updatedAt",
+    id: "updatedAt",
+    header: ({ column }) => (
+      <DataGridColumnHeader
+        title={t("users.columns.updatedAt")}
+        visibility={true}
+        column={column}
+      />
+    ),
+    cell: ({ row }) => (
+      <div className="text-foreground">
+        {new Date(row.getValue("updatedAt")).toLocaleString()}
+      </div>
+    ),
+    size: 180,
     enableSorting: true,
     enableHiding: true,
     enableResizing: true,
   },
   {
     id: "actions",
-    header: "Acciones",
+    header: t("users.columns.actions"),
     cell: ({ row }) => {
       const user = row.original;
       return <ActionsCell user={user} />;
@@ -133,6 +143,9 @@ export const columns: ColumnDef<User>[] = [
 function ActionsCell({ user }: { user: User }) {
   const [openEdit, setOpenEdit] = useState(false);
   const { t } = useTranslation();
+  const { data: profile } = useProfile();
+
+  const isCurrentUser = profile?.id === user.id;
 
   return (
     <>
@@ -144,11 +157,11 @@ function ActionsCell({ user }: { user: User }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem onClick={() => setOpenEdit(true)}>
-            <Pencil className="size-4 mr-2" />
+            <Pencil className="size-4" />
             {t("users.actions.edit")}
           </DropdownMenuItem>
-          <DropdownMenuItem className="text-destructive">
-            <Trash2 className="size-4 mr-2" />
+          <DropdownMenuItem className="text-red-600" disabled={isCurrentUser}>
+            <Trash2 className="size-4" />
             {t("users.actions.delete")}
           </DropdownMenuItem>
         </DropdownMenuContent>

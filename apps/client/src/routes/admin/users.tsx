@@ -13,13 +13,14 @@ import {
   ScrollBar,
 } from "@/components/data-grid/crud";
 import { useUsersList } from "@/services/users/queries";
-import { columns } from "@/components/users-columns";
+import { getColumns } from "@/components/users-columns";
 import {
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
+  type ColumnPinningState,
   type PaginationState,
   type SortingState,
 } from "@tanstack/react-table";
@@ -35,6 +36,9 @@ function RouteComponent() {
     pageSize: 10,
   });
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnPinning, setColumnPinning] = useState<ColumnPinningState>({
+    right: ["actions"],
+  });
 
   const { t } = useTranslation();
 
@@ -43,6 +47,8 @@ function RouteComponent() {
     limit: pagination.pageSize,
     sorting: sorting.map((s) => ({ id: s.id, desc: s.desc })),
   });
+
+  const columns = getColumns(t);
 
   const [columnOrder, setColumnOrder] = useState<string[]>(
     columns.map((column) => column.id as string)
@@ -57,9 +63,11 @@ function RouteComponent() {
       pagination,
       sorting,
       columnOrder,
+      columnPinning,
     },
     columnResizeMode: "onChange",
     onColumnOrderChange: setColumnOrder,
+    onColumnPinningChange: setColumnPinning,
     onPaginationChange: setPagination,
     onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),

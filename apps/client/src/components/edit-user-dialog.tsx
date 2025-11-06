@@ -1,7 +1,5 @@
-import * as React from "react";
-import { ResponsiveDialog } from "@/components/ui/responsive-dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { DrawerClose } from "@/components/ui/drawer";
 import {
   Form,
   FormControl,
@@ -10,6 +8,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { ResponsiveDialog } from "@/components/ui/responsive-dialog";
 import {
   Select,
   SelectContent,
@@ -17,15 +17,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { useUpdateUser } from "@/services/users/mutations";
 import type { User } from "@/services/users/service";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as React from "react";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { DrawerClose } from "@/components/ui/drawer";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { z } from "zod";
 
 const updateUserSchema = z.object({
   name: z.string().min(1),
@@ -106,9 +106,9 @@ export function EditUserDialog({
       <Button
         type="submit"
         onClick={form.handleSubmit(onSubmit)}
-        disabled={updateUser.isPending}
+        isLoading={updateUser.isPending}
       >
-        {updateUser.isPending ? t("users.edit.saving") : t("users.edit.save")}
+        {t("users.edit.save")}
       </Button>
       <DrawerClose asChild>
         <Button variant="outline">{t("users.edit.cancel")}</Button>

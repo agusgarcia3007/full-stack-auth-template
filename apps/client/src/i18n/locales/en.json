@@ -66,6 +66,15 @@
     "INVALID_RESET_TOKEN": "Invalid or expired reset token"
   },
   "dataTable": {
+    "columnHeader": {
+      "asc": "Asc",
+      "desc": "Desc",
+      "pinToLeft": "Pin to left",
+      "pinToRight": "Pin to right",
+      "moveToLeft": "Move to Left",
+      "moveToRight": "Move to Right",
+      "columns": "Columns"
+    },
     "operators": {
       "text": {
         "contains": "Contains",
@@ -151,6 +160,14 @@
       "namePlaceholder": "Filter by name...",
       "emailPlaceholder": "Filter by email...",
       "rolePlaceholder": "Select role"
+    },
+    "columns": {
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "createdAt": "Created at",
+      "updatedAt": "Updated at",
+      "actions": "Actions"
     },
     "actions": {
       "edit": "Edit",

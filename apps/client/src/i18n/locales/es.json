@@ -66,6 +66,15 @@
     "INVALID_RESET_TOKEN": "Token de restablecimiento inválido o expirado"
   },
   "dataTable": {
+    "columnHeader": {
+      "asc": "Ascendente",
+      "desc": "Descendente",
+      "pinToLeft": "Fijar a la izquierda",
+      "pinToRight": "Fijar a la derecha",
+      "moveToLeft": "Mover a la izquierda",
+      "moveToRight": "Mover a la derecha",
+      "columns": "Columnas"
+    },
     "operators": {
       "text": {
         "contains": "Contiene",
@@ -151,6 +160,14 @@
       "namePlaceholder": "Filtrar por nombre...",
       "emailPlaceholder": "Filtrar por email...",
       "rolePlaceholder": "Seleccionar rol"
+    },
+    "columns": {
+      "name": "Nombre",
+      "email": "Email",
+      "role": "Rol",
+      "createdAt": "Fecha de creación",
+      "updatedAt": "Fecha de actualización",
+      "actions": "Acciones"
     },
     "actions": {
       "edit": "Editar",

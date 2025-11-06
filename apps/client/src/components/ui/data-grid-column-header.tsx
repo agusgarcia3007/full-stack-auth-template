@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { useDataGrid } from "@/components/ui/data-grid";
 import {
@@ -47,6 +48,7 @@ function DataGridColumnHeader<TData, TValue>({
   filter,
   visibility = false,
 }: DataGridColumnHeaderProps<TData, TValue>) {
+  const { t } = useTranslation();
   const { isLoading, table, props, recordCount } = useDataGrid();
 
   const moveColumn = (direction: "left" | "right") => {
@@ -170,7 +172,7 @@ function DataGridColumnHeader<TData, TValue>({
                   disabled={!column.getCanSort()}
                 >
                   <ArrowUp className="size-3.5!" />
-                  <span className="grow">Asc</span>
+                  <span className="grow">{t("dataTable.columnHeader.asc")}</span>
                   {column.getIsSorted() === "asc" && (
                     <Check className="size-4 opacity-100! text-primary" />
                   )}
@@ -186,7 +188,7 @@ function DataGridColumnHeader<TData, TValue>({
                   disabled={!column.getCanSort()}
                 >
                   <ArrowDown className="size-3.5!" />
-                  <span className="grow">Desc</span>
+                  <span className="grow">{t("dataTable.columnHeader.desc")}</span>
                   {column.getIsSorted() === "desc" && (
                     <Check className="size-4 opacity-100! text-primary" />
                   )}
@@ -207,7 +209,7 @@ function DataGridColumnHeader<TData, TValue>({
                   }
                 >
                   <ArrowLeftToLine className="size-3.5!" aria-hidden="true" />
-                  <span className="grow">Pin to left</span>
+                  <span className="grow">{t("dataTable.columnHeader.pinToLeft")}</span>
                   {column.getIsPinned() === "left" && (
                     <Check className="size-4 opacity-100! text-primary" />
                   )}
@@ -220,7 +222,7 @@ function DataGridColumnHeader<TData, TValue>({
                   }
                 >
                   <ArrowRightToLine className="size-3.5!" aria-hidden="true" />
-                  <span className="grow">Pin to right</span>
+                  <span className="grow">{t("dataTable.columnHeader.pinToRight")}</span>
                   {column.getIsPinned() === "right" && (
                     <Check className="size-4 opacity-100! text-primary" />
                   )}
@@ -236,14 +238,14 @@ function DataGridColumnHeader<TData, TValue>({
                   disabled={!canMove("left") || column.getIsPinned() !== false}
                 >
                   <ArrowLeft className="size-3.5!" aria-hidden="true" />
-                  <span>Move to Left</span>
+                  <span>{t("dataTable.columnHeader.moveToLeft")}</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() => moveColumn("right")}
                   disabled={!canMove("right") || column.getIsPinned() !== false}
                 >
                   <ArrowRight className="size-3.5!" aria-hidden="true" />
-                  <span>Move to Right</span>
+                  <span>{t("dataTable.columnHeader.moveToRight")}</span>
                 </DropdownMenuItem>
               </>
             )}
@@ -258,7 +260,7 @@ function DataGridColumnHeader<TData, TValue>({
               <DropdownMenuSub>
                 <DropdownMenuSubTrigger>
                   <Settings2 className="size-3.5!" />
-                  <span>Columns</span>
+                  <span>{t("dataTable.columnHeader.columns")}</span>
                 </DropdownMenuSubTrigger>
                 <DropdownMenuPortal>
                   <DropdownMenuSubContent>
