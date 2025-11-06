@@ -37,8 +37,8 @@ export function useUsersFilterFields(): FilterFieldConfig[] {
       key: "createdAt",
       label: t("users.columns.createdAt"),
       icon: <Calendar className="size-4" />,
-      type: "date",
-      defaultOperator: "is",
+      type: "daterange",
+      defaultOperator: "between",
     },
   ];
 }

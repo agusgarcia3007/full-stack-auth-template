@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
   DataGrid,
   DataGridPagination,
@@ -27,8 +27,15 @@ import {
 import { useTranslation } from "react-i18next";
 import { Filters, type Filter } from "@/components/ui/filters";
 import { useUsersFilterFields } from "@/components/users-filters-config";
-import { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyMedia } from "@/components/ui/empty";
-import { Users } from "lucide-react";
+import {
+  Empty,
+  EmptyHeader,
+  EmptyTitle,
+  EmptyDescription,
+  EmptyMedia,
+} from "@/components/ui/empty";
+import { FunnelPlus, Users } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/admin/users")({
   component: RouteComponent,
@@ -44,19 +51,28 @@ function RouteComponent() {
     right: ["actions"],
   });
   const [filters, setFilters] = useState<Filter[]>([]);
+  const [debouncedFilters, setDebouncedFilters] = useState<Filter[]>([]);
 
   const { t } = useTranslation();
   const filterFields = useUsersFilterFields();
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedFilters(filters);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [filters]);
+
   const apiFilters = useMemo(() => {
-    return filters.reduce((acc, filter) => {
+    return debouncedFilters.reduce((acc, filter) => {
       if (filter.values.length === 0) return acc;
 
       const key = `${filter.field}[${filter.operator}]`;
       acc[key] = filter.values.join(",");
       return acc;
     }, {} as Record<string, string>);
-  }, [filters]);
+  }, [debouncedFilters]);
 
   const { data, isLoading, isPending } = useUsersList({
     page: pagination.pageIndex + 1,
@@ -100,9 +116,15 @@ function RouteComponent() {
       <h1 className="text-2xl font-bold">{t("users.title")}</h1>
 
       <Filters
+        radius="full"
         filters={filters}
         fields={filterFields}
         onChange={setFilters}
+        addButton={
+          <Button size="icon" variant="outline">
+            <FunnelPlus />
+          </Button>
+        }
         i18n={{
           addFilter: t("filters.addFilter"),
           searchFields: t("filters.searchFields"),
@@ -140,9 +162,11 @@ function RouteComponent() {
             includesAnyOf: t("filters.operators.includesAnyOf"),
           },
           placeholders: {
-            enterField: (fieldType: string) => t("filters.placeholders.enterField", { fieldType }),
+            enterField: (fieldType: string) =>
+              t("filters.placeholders.enterField", { fieldType }),
             selectField: t("filters.placeholders.selectField"),
-            searchField: (fieldName: string) => t("filters.placeholders.searchField", { fieldName }),
+            searchField: (fieldName: string) =>
+              t("filters.placeholders.searchField", { fieldName }),
             enterKey: t("filters.placeholders.enterKey"),
             enterValue: t("filters.placeholders.enterValue"),
           },
@@ -167,7 +191,9 @@ function RouteComponent() {
                 <Users />
               </EmptyMedia>
               <EmptyTitle>{t("users.empty.title")}</EmptyTitle>
-              <EmptyDescription>{t("users.empty.description")}</EmptyDescription>
+              <EmptyDescription>
+                {t("users.empty.description")}
+              </EmptyDescription>
             </EmptyHeader>
           </Empty>
         }

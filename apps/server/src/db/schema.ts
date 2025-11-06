@@ -22,6 +22,7 @@ export const usersTable = pgTable("users", {
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 }, (table) => [
   index("users_email_idx").on(table.email),
+  index("users_created_at_idx").on(table.createdAt),
 ]);
 
 export const tokenTypeEnum = pgEnum("token_type", [
@@ -57,5 +58,6 @@ export const tokensTable = pgTable(
       table.expiresAt,
       table.revoked
     ),
+    index("tokens_created_at_idx").on(table.createdAt),
   ]
 );

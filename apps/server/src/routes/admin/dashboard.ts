@@ -17,38 +17,40 @@ dashboard.get("/metrics", async (c) => {
     const twentyEightDaysAgo = new Date(now);
     twentyEightDaysAgo.setDate(now.getDate() - 28);
 
-    const totalUsersResult = await db
-      .select({ count: count() })
-      .from(usersTable);
-
-    const newUsersResult = await db
-      .select({ count: count() })
-      .from(usersTable)
-      .where(gte(usersTable.createdAt, twentyEightDaysAgo));
-
-    const activeUsersResult = await db
-      .select({
-        count: sql<number>`COUNT(DISTINCT ${usersTable.id})`,
-      })
-      .from(usersTable)
-      .innerJoin(tokensTable, eq(tokensTable.userId, usersTable.id))
-      .where(
-        and(
-          gte(tokensTable.createdAt, twentyEightDaysAgo),
-          eq(tokensTable.type, "access"),
-          eq(tokensTable.revoked, false)
-        )
-      );
-
-    const dailyRegistrationsData = await db
-      .select({
-        date: sql<string>`DATE(${usersTable.createdAt})`,
-        count: count(),
-      })
-      .from(usersTable)
-      .where(gte(usersTable.createdAt, twentyEightDaysAgo))
-      .groupBy(sql`DATE(${usersTable.createdAt})`)
-      .orderBy(sql`DATE(${usersTable.createdAt})`);
+    const [
+      totalUsersResult,
+      newUsersResult,
+      activeUsersResult,
+      dailyRegistrationsData,
+    ] = await Promise.all([
+      db.select({ count: count() }).from(usersTable),
+      db
+        .select({ count: count() })
+        .from(usersTable)
+        .where(gte(usersTable.createdAt, twentyEightDaysAgo)),
+      db
+        .select({
+          count: sql<number>`COUNT(DISTINCT ${usersTable.id})`,
+        })
+        .from(usersTable)
+        .innerJoin(tokensTable, eq(tokensTable.userId, usersTable.id))
+        .where(
+          and(
+            gte(tokensTable.createdAt, twentyEightDaysAgo),
+            eq(tokensTable.type, "access"),
+            eq(tokensTable.revoked, false)
+          )
+        ),
+      db
+        .select({
+          date: sql<string>`DATE(${usersTable.createdAt})`,
+          count: count(),
+        })
+        .from(usersTable)
+        .where(gte(usersTable.createdAt, twentyEightDaysAgo))
+        .groupBy(sql`DATE(${usersTable.createdAt})`)
+        .orderBy(sql`DATE(${usersTable.createdAt})`),
+    ]);
 
     const dataMap = new Map(
       dailyRegistrationsData.map((r) => [r.date, Number(r.count)])

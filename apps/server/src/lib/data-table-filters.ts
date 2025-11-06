@@ -1,4 +1,4 @@
-import { SQL, and, ilike, eq, ne, gt, lt, gte, lte, isNull, isNotNull, inArray, notInArray } from "drizzle-orm";
+import { SQL, and, or, ilike, eq, ne, gt, lt, gte, lte, isNull, isNotNull, inArray, notInArray } from "drizzle-orm";
 import type { PgColumn } from "drizzle-orm/pg-core";
 
 export function buildFilterCondition(
@@ -42,38 +42,42 @@ export function buildFilterCondition(
   }
 
   if (isDateField) {
-    const dateValue = new Date(value);
+    const parseLocalDate = (dateStr: string) => {
+      const [year, month, day] = dateStr.split('-').map(Number);
+      return new Date(year, month - 1, day);
+    };
+
     switch (operator) {
       case "before": {
-        const endOfDay = new Date(dateValue);
+        const endOfDay = parseLocalDate(value);
         endOfDay.setHours(23, 59, 59, 999);
         return lte(column, endOfDay);
       }
       case "after": {
-        const startOfDay = new Date(dateValue);
+        const startOfDay = parseLocalDate(value);
         startOfDay.setHours(0, 0, 0, 0);
         return gte(column, startOfDay);
       }
       case "is": {
-        const startOfDay = new Date(dateValue);
+        const startOfDay = parseLocalDate(value);
         startOfDay.setHours(0, 0, 0, 0);
-        const endOfDay = new Date(dateValue);
+        const endOfDay = parseLocalDate(value);
         endOfDay.setHours(23, 59, 59, 999);
         return and(gte(column, startOfDay), lte(column, endOfDay));
       }
       case "is_not": {
-        const startOfDay = new Date(dateValue);
+        const startOfDay = parseLocalDate(value);
         startOfDay.setHours(0, 0, 0, 0);
-        const endOfDay = new Date(dateValue);
+        const endOfDay = parseLocalDate(value);
         endOfDay.setHours(23, 59, 59, 999);
         return ne(column, and(gte(column, startOfDay), lte(column, endOfDay)) as any);
       }
       case "between": {
         const [start, end] = value.split(",");
         if (start && end) {
-          const startDate = new Date(start);
+          const startDate = parseLocalDate(start);
           startDate.setHours(0, 0, 0, 0);
-          const endDate = new Date(end);
+          const endDate = parseLocalDate(end);
           endDate.setHours(23, 59, 59, 999);
           return and(
             gte(column, startDate),
@@ -82,8 +86,24 @@ export function buildFilterCondition(
         }
         return undefined;
       }
-      default:
+      case "not_between": {
+        const [start, end] = value.split(",");
+        if (start && end) {
+          const startDate = parseLocalDate(start);
+          startDate.setHours(0, 0, 0, 0);
+          const endDate = parseLocalDate(end);
+          endDate.setHours(23, 59, 59, 999);
+          return or(
+            lt(column, startDate),
+            gt(column, endDate)
+          );
+        }
+        return undefined;
+      }
+      default: {
+        const dateValue = parseLocalDate(value);
         return eq(column, dateValue);
+      }
     }
   }
 
