@@ -3,6 +3,16 @@ import type { User } from "@/services/users/service";
 import { useTranslation } from "react-i18next";
 import { Badge } from "@/components/ui/badge";
 import { DataGridColumnHeader, DataGridTableRowSelect, DataGridTableRowSelectAll } from "@/components/data-grid/crud";
+import { Button } from "@/components/ui/button";
+import { EditUserDialog } from "@/components/edit-user-dialog";
+import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { useState } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 function RoleCell({ role }: { role: string }) {
   const { t } = useTranslation();
@@ -106,4 +116,44 @@ export const columns: ColumnDef<User>[] = [
     enableHiding: true,
     enableResizing: true,
   },
+  {
+    id: "actions",
+    header: "Acciones",
+    cell: ({ row }) => {
+      const user = row.original;
+      return <ActionsCell user={user} />;
+    },
+    size: 100,
+    enableSorting: false,
+    enableHiding: false,
+    enableResizing: false,
+  },
 ];
+
+function ActionsCell({ user }: { user: User }) {
+  const [openEdit, setOpenEdit] = useState(false);
+  const { t } = useTranslation();
+
+  return (
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" size="icon">
+            <MoreHorizontal className="size-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem onClick={() => setOpenEdit(true)}>
+            <Pencil className="size-4 mr-2" />
+            {t("users.actions.edit")}
+          </DropdownMenuItem>
+          <DropdownMenuItem className="text-destructive">
+            <Trash2 className="size-4 mr-2" />
+            {t("users.actions.delete")}
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <EditUserDialog user={user} open={openEdit} onOpenChange={setOpenEdit} />
+    </>
+  );
+}

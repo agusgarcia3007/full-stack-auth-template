@@ -151,10 +151,30 @@
       "namePlaceholder": "Filtrar por nombre...",
       "emailPlaceholder": "Filtrar por email...",
       "rolePlaceholder": "Seleccionar rol"
+    },
+    "actions": {
+      "edit": "Editar",
+      "delete": "Eliminar"
+    },
+    "edit": {
+      "title": "Editar usuario",
+      "description": "Modifica la información del usuario",
+      "fields": {
+        "name": "Nombre",
+        "email": "Correo electrónico",
+        "role": "Rol",
+        "password": "Nueva contraseña (opcional)"
+      },
+      "save": "Guardar cambios",
+      "saving": "Guardando...",
+      "cancel": "Cancelar",
+      "success": "Usuario actualizado exitosamente",
+      "error": "Error al actualizar el usuario"
     }
   },
   "roles": {
     "admin": "Admin",
+    "student": "Estudiante",
     "user": "Usuario"
   },
   "profile": {
@@ -214,6 +234,18 @@
     "tooltip": {
       "user": "usuario",
       "users": "usuarios"
+    }
+  },
+  "admin": {
+    "title": "Admin",
+    "subtitle": "Panel de administración",
+    "sections": {
+      "general": "General",
+      "management": "Gestión"
+    },
+    "menu": {
+      "dashboard": "Dashboard",
+      "users": "Usuarios"
     }
   }
 }

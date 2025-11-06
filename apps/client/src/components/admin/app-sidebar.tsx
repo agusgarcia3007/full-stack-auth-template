@@ -1,5 +1,6 @@
 import * as React from "react";
 import { LayoutDashboard, Users } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 import {
   Sidebar,
@@ -15,33 +16,34 @@ import {
 } from "@/components/ui/sidebar";
 import { Link, useLocation } from "@tanstack/react-router";
 
-const data = {
-  navMain: [
-    {
-      title: "General",
-      items: [
-        {
-          title: "Dashboard",
-          url: "/admin",
-          icon: LayoutDashboard,
-        },
-      ],
-    },
-    {
-      title: "Gestión",
-      items: [
-        {
-          title: "Usuarios",
-          url: "/admin/users",
-          icon: Users,
-        },
-      ],
-    },
-  ],
-};
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const location = useLocation();
+  const { t } = useTranslation();
+
+  const data = {
+    navMain: [
+      {
+        title: t("admin.sections.general"),
+        items: [
+          {
+            title: t("admin.menu.dashboard"),
+            url: "/admin",
+            icon: LayoutDashboard,
+          },
+        ],
+      },
+      {
+        title: t("admin.sections.management"),
+        items: [
+          {
+            title: t("admin.menu.users"),
+            url: "/admin/users",
+            icon: Users,
+          },
+        ],
+      },
+    ],
+  };
 
   return (
     <Sidebar {...props}>
@@ -51,9 +53,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <LayoutDashboard className="size-4" />
           </div>
           <div className="flex flex-col gap-0.5 leading-none">
-            <span className="font-semibold">Admin</span>
+            <span className="font-semibold">{t("admin.title")}</span>
             <span className="text-xs text-muted-foreground">
-              Panel de administración
+              {t("admin.subtitle")}
             </span>
           </div>
         </div>

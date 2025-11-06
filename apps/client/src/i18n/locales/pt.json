@@ -151,10 +151,30 @@
       "namePlaceholder": "Filtrar por nome...",
       "emailPlaceholder": "Filtrar por e-mail...",
       "rolePlaceholder": "Selecionar função"
+    },
+    "actions": {
+      "edit": "Editar",
+      "delete": "Excluir"
+    },
+    "edit": {
+      "title": "Editar usuário",
+      "description": "Modificar informações do usuário",
+      "fields": {
+        "name": "Nome",
+        "email": "E-mail",
+        "role": "Função",
+        "password": "Nova senha (opcional)"
+      },
+      "save": "Salvar alterações",
+      "saving": "Salvando...",
+      "cancel": "Cancelar",
+      "success": "Usuário atualizado com sucesso",
+      "error": "Erro ao atualizar usuário"
     }
   },
   "roles": {
     "admin": "Admin",
+    "student": "Estudante",
     "user": "Usuário"
   },
   "profile": {

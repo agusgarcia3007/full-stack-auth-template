@@ -151,10 +151,30 @@
       "namePlaceholder": "Filter by name...",
       "emailPlaceholder": "Filter by email...",
       "rolePlaceholder": "Select role"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "edit": {
+      "title": "Edit user",
+      "description": "Modify user information",
+      "fields": {
+        "name": "Name",
+        "email": "Email",
+        "role": "Role",
+        "password": "New password (optional)"
+      },
+      "save": "Save changes",
+      "saving": "Saving...",
+      "cancel": "Cancel",
+      "success": "User updated successfully",
+      "error": "Error updating user"
     }
   },
   "roles": {
     "admin": "Admin",
+    "student": "Student",
     "user": "User"
   },
   "profile": {
@@ -214,6 +234,18 @@
     "tooltip": {
       "user": "user",
       "users": "users"
+    }
+  },
+  "admin": {
+    "title": "Admin",
+    "subtitle": "Administration Panel",
+    "sections": {
+      "general": "General",
+      "management": "Management"
+    },
+    "menu": {
+      "dashboard": "Dashboard",
+      "users": "Users"
     }
   }
 }
