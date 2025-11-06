@@ -1,6 +1,5 @@
 import { Resend } from "resend";
 import { env } from "./env";
-import { logger } from "./logger";
 
 const resend = new Resend(env.RESEND_API_KEY);
 
@@ -12,7 +11,7 @@ export async function sendEmail(to: string, subject: string, body: string) {
     html: body,
   });
   if (error) {
-    logger.error(error.message);
+    console.error("Email send error:", error);
   }
   return data;
 }
