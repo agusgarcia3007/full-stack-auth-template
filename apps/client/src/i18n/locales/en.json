@@ -264,5 +264,55 @@
       "dashboard": "Dashboard",
       "users": "Users"
     }
+  },
+  "filters": {
+    "addFilter": "Add filter",
+    "searchFields": "Search fields...",
+    "noFieldsFound": "No fields found.",
+    "noResultsFound": "No results found.",
+    "select": "Select...",
+    "true": "True",
+    "false": "False",
+    "operators": {
+      "is": "is",
+      "isNot": "is not",
+      "isAnyOf": "is any of",
+      "isNotAnyOf": "is not any of",
+      "contains": "contains",
+      "notContains": "does not contain",
+      "startsWith": "starts with",
+      "endsWith": "ends with",
+      "before": "before",
+      "after": "after",
+      "between": "between",
+      "empty": "is empty",
+      "notEmpty": "is not empty",
+      "equals": "equals",
+      "notEquals": "not equals",
+      "greaterThan": "greater than",
+      "lessThan": "less than",
+      "isExactly": "is exactly",
+      "includesAll": "includes all",
+      "excludesAll": "excludes all",
+      "notBetween": "not between",
+      "overlaps": "overlaps",
+      "includes": "includes",
+      "excludes": "excludes",
+      "includesAllOf": "includes all of",
+      "includesAnyOf": "includes any of"
+    },
+    "placeholders": {
+      "enterField": "Enter {{fieldType}}...",
+      "selectField": "Select...",
+      "searchField": "Search {{fieldName}}...",
+      "enterKey": "Enter key...",
+      "enterValue": "Enter value..."
+    },
+    "validation": {
+      "invalidEmail": "Invalid email format",
+      "invalidUrl": "Invalid URL format",
+      "invalidTel": "Invalid phone format",
+      "invalid": "Invalid input format"
+    }
   }
 }

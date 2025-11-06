@@ -1,23 +1,110 @@
-import { SQL, and, ilike, eq } from "drizzle-orm";
+import { SQL, and, ilike, eq, ne, gt, lt, gte, lte, isNull, isNotNull, inArray, notInArray } from "drizzle-orm";
 import type { PgColumn } from "drizzle-orm/pg-core";
 
 export function buildFilterCondition(
   value: string,
-  column: PgColumn
+  column: PgColumn,
+  operator: string = "contains"
 ): SQL | undefined {
-  if (!value) return undefined;
+  if (!value && operator !== "empty" && operator !== "not_empty") return undefined;
 
   const columnType = column.getSQLType();
+  const isTextField = columnType.includes('varchar') || columnType.includes('text');
+  const isDateField = columnType.includes('timestamp') || columnType.includes('date');
+  const isBooleanField = columnType.includes('boolean');
 
-  if (columnType.includes('varchar') || columnType.includes('text')) {
-    return ilike(column, `%${value}%`);
+  if (operator === "empty") {
+    return isNull(column);
   }
 
-  if (columnType.includes('boolean')) {
-    return eq(column, value === 'true');
+  if (operator === "not_empty") {
+    return isNotNull(column);
   }
 
-  return eq(column, value);
+  if (isTextField) {
+    switch (operator) {
+      case "contains":
+        return ilike(column, `%${value}%`);
+      case "not_contains":
+        return ne(column, ilike(column, `%${value}%`));
+      case "starts_with":
+        return ilike(column, `${value}%`);
+      case "ends_with":
+        return ilike(column, `%${value}`);
+      case "is":
+      case "is_exactly":
+        return eq(column, value);
+      case "is_not":
+        return ne(column, value);
+      default:
+        return ilike(column, `%${value}%`);
+    }
+  }
+
+  if (isDateField) {
+    const dateValue = new Date(value);
+    switch (operator) {
+      case "before":
+        return lt(column, dateValue);
+      case "after":
+        return gt(column, dateValue);
+      case "is":
+        return eq(column, dateValue);
+      case "is_not":
+        return ne(column, dateValue);
+      case "between": {
+        const [start, end] = value.split(",");
+        if (start && end) {
+          return and(
+            gte(column, new Date(start)),
+            lte(column, new Date(end))
+          );
+        }
+        return undefined;
+      }
+      default:
+        return eq(column, dateValue);
+    }
+  }
+
+  if (isBooleanField) {
+    const boolValue = value === "true" || value === "1";
+    switch (operator) {
+      case "is":
+        return eq(column, boolValue);
+      case "is_not":
+        return ne(column, boolValue);
+      default:
+        return eq(column, boolValue);
+    }
+  }
+
+  const values = value.split(",");
+  switch (operator) {
+    case "is":
+    case "equals":
+      return eq(column, value);
+    case "is_not":
+    case "not_equals":
+      return ne(column, value);
+    case "is_any_of":
+      return inArray(column, values);
+    case "is_not_any_of":
+      return notInArray(column, values);
+    case "greater_than":
+      return gt(column, value);
+    case "less_than":
+      return lt(column, value);
+    case "between": {
+      const [min, max] = values;
+      if (min && max) {
+        return and(gte(column, min), lte(column, max));
+      }
+      return undefined;
+    }
+    default:
+      return eq(column, value);
+  }
 }
 
 export function buildFiltersCondition<T extends Record<string, PgColumn>>(
@@ -26,9 +113,17 @@ export function buildFiltersCondition<T extends Record<string, PgColumn>>(
 ): SQL | undefined {
   const conditions = Object.entries(filters)
     .map(([key, value]) => {
-      const column = columnMap[key];
-      if (!column) return undefined;
-      return buildFilterCondition(value, column);
+      const match = key.match(/^(.+)\[(.+)\]$/);
+      if (match) {
+        const [, fieldName, operator] = match;
+        const column = columnMap[fieldName];
+        if (!column) return undefined;
+        return buildFilterCondition(value, column, operator);
+      } else {
+        const column = columnMap[key];
+        if (!column) return undefined;
+        return buildFilterCondition(value, column);
+      }
     })
     .filter((condition): condition is SQL => condition !== undefined);
 

@@ -264,5 +264,55 @@
       "dashboard": "Painel de controle",
       "users": "Usuários"
     }
+  },
+  "filters": {
+    "addFilter": "Adicionar filtro",
+    "searchFields": "Pesquisar campos...",
+    "noFieldsFound": "Nenhum campo encontrado.",
+    "noResultsFound": "Nenhum resultado encontrado.",
+    "select": "Selecionar...",
+    "true": "Verdadeiro",
+    "false": "Falso",
+    "operators": {
+      "is": "é",
+      "isNot": "não é",
+      "isAnyOf": "é qualquer um de",
+      "isNotAnyOf": "não é nenhum de",
+      "contains": "contém",
+      "notContains": "não contém",
+      "startsWith": "começa com",
+      "endsWith": "termina com",
+      "before": "antes de",
+      "after": "depois de",
+      "between": "entre",
+      "empty": "está vazio",
+      "notEmpty": "não está vazio",
+      "equals": "igual a",
+      "notEquals": "não igual a",
+      "greaterThan": "maior que",
+      "lessThan": "menor que",
+      "isExactly": "é exatamente",
+      "includesAll": "inclui todos",
+      "excludesAll": "exclui todos",
+      "notBetween": "não está entre",
+      "overlaps": "sobrepõe",
+      "includes": "inclui",
+      "excludes": "exclui",
+      "includesAllOf": "inclui todos de",
+      "includesAnyOf": "inclui qualquer um de"
+    },
+    "placeholders": {
+      "enterField": "Digite {{fieldType}}...",
+      "selectField": "Selecionar...",
+      "searchField": "Pesquisar {{fieldName}}...",
+      "enterKey": "Digite chave...",
+      "enterValue": "Digite valor..."
+    },
+    "validation": {
+      "invalidEmail": "Formato de e-mail inválido",
+      "invalidUrl": "Formato de URL inválido",
+      "invalidTel": "Formato de telefone inválido",
+      "invalid": "Formato de entrada inválido"
+    }
   }
 }

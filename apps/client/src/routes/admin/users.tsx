@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import {
   DataGrid,
   DataGridPagination,
@@ -25,6 +25,8 @@ import {
   type SortingState,
 } from "@tanstack/react-table";
 import { useTranslation } from "react-i18next";
+import { Filters, type Filter } from "@/components/ui/filters";
+import { useUsersFilterFields } from "@/components/users-filters-config";
 
 export const Route = createFileRoute("/admin/users")({
   component: RouteComponent,
@@ -39,13 +41,26 @@ function RouteComponent() {
   const [columnPinning, setColumnPinning] = useState<ColumnPinningState>({
     right: ["actions"],
   });
+  const [filters, setFilters] = useState<Filter[]>([]);
 
   const { t } = useTranslation();
+  const filterFields = useUsersFilterFields();
+
+  const apiFilters = useMemo(() => {
+    return filters.reduce((acc, filter) => {
+      if (filter.values.length === 0) return acc;
+
+      const key = `${filter.field}[${filter.operator}]`;
+      acc[key] = filter.values.join(",");
+      return acc;
+    }, {} as Record<string, string>);
+  }, [filters]);
 
   const { data } = useUsersList({
     page: pagination.pageIndex + 1,
     limit: pagination.pageSize,
     sorting: sorting.map((s) => ({ id: s.id, desc: s.desc })),
+    filters: apiFilters,
   });
 
   const columns = getColumns(t);
@@ -81,6 +96,62 @@ function RouteComponent() {
   return (
     <div className="flex flex-1 flex-col gap-4 p-4">
       <h1 className="text-2xl font-bold">{t("users.title")}</h1>
+
+      <Filters
+        filters={filters}
+        fields={filterFields}
+        onChange={setFilters}
+        i18n={{
+          addFilter: t("filters.addFilter"),
+          searchFields: t("filters.searchFields"),
+          noFieldsFound: t("filters.noFieldsFound"),
+          noResultsFound: t("filters.noResultsFound"),
+          select: t("filters.select"),
+          true: t("filters.true"),
+          false: t("filters.false"),
+          operators: {
+            is: t("filters.operators.is"),
+            isNot: t("filters.operators.isNot"),
+            isAnyOf: t("filters.operators.isAnyOf"),
+            isNotAnyOf: t("filters.operators.isNotAnyOf"),
+            contains: t("filters.operators.contains"),
+            notContains: t("filters.operators.notContains"),
+            startsWith: t("filters.operators.startsWith"),
+            endsWith: t("filters.operators.endsWith"),
+            before: t("filters.operators.before"),
+            after: t("filters.operators.after"),
+            between: t("filters.operators.between"),
+            empty: t("filters.operators.empty"),
+            notEmpty: t("filters.operators.notEmpty"),
+            equals: t("filters.operators.equals"),
+            notEquals: t("filters.operators.notEquals"),
+            greaterThan: t("filters.operators.greaterThan"),
+            lessThan: t("filters.operators.lessThan"),
+            isExactly: t("filters.operators.isExactly"),
+            includesAll: t("filters.operators.includesAll"),
+            excludesAll: t("filters.operators.excludesAll"),
+            notBetween: t("filters.operators.notBetween"),
+            overlaps: t("filters.operators.overlaps"),
+            includes: t("filters.operators.includes"),
+            excludes: t("filters.operators.excludes"),
+            includesAllOf: t("filters.operators.includesAllOf"),
+            includesAnyOf: t("filters.operators.includesAnyOf"),
+          },
+          placeholders: {
+            enterField: (fieldType: string) => t("filters.placeholders.enterField", { fieldType }),
+            selectField: t("filters.placeholders.selectField"),
+            searchField: (fieldName: string) => t("filters.placeholders.searchField", { fieldName }),
+            enterKey: t("filters.placeholders.enterKey"),
+            enterValue: t("filters.placeholders.enterValue"),
+          },
+          validation: {
+            invalidEmail: t("filters.validation.invalidEmail"),
+            invalidUrl: t("filters.validation.invalidUrl"),
+            invalidTel: t("filters.validation.invalidTel"),
+            invalid: t("filters.validation.invalid"),
+          },
+        }}
+      />
 
       <DataGrid
         table={table}

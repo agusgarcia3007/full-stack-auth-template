@@ -264,5 +264,55 @@
       "dashboard": "Dashboard",
       "users": "Usuarios"
     }
+  },
+  "filters": {
+    "addFilter": "Agregar filtro",
+    "searchFields": "Buscar campos...",
+    "noFieldsFound": "No se encontraron campos.",
+    "noResultsFound": "No se encontraron resultados.",
+    "select": "Seleccionar...",
+    "true": "Verdadero",
+    "false": "Falso",
+    "operators": {
+      "is": "es",
+      "isNot": "no es",
+      "isAnyOf": "es cualquiera de",
+      "isNotAnyOf": "no es ninguno de",
+      "contains": "contiene",
+      "notContains": "no contiene",
+      "startsWith": "comienza con",
+      "endsWith": "termina con",
+      "before": "antes de",
+      "after": "después de",
+      "between": "entre",
+      "empty": "está vacío",
+      "notEmpty": "no está vacío",
+      "equals": "igual a",
+      "notEquals": "no igual a",
+      "greaterThan": "mayor que",
+      "lessThan": "menor que",
+      "isExactly": "es exactamente",
+      "includesAll": "incluye todos",
+      "excludesAll": "excluye todos",
+      "notBetween": "no está entre",
+      "overlaps": "se superpone",
+      "includes": "incluye",
+      "excludes": "excluye",
+      "includesAllOf": "incluye todos de",
+      "includesAnyOf": "incluye cualquiera de"
+    },
+    "placeholders": {
+      "enterField": "Ingrese {{fieldType}}...",
+      "selectField": "Seleccionar...",
+      "searchField": "Buscar {{fieldName}}...",
+      "enterKey": "Ingrese clave...",
+      "enterValue": "Ingrese valor..."
+    },
+    "validation": {
+      "invalidEmail": "Formato de correo electrónico inválido",
+      "invalidUrl": "Formato de URL inválido",
+      "invalidTel": "Formato de teléfono inválido",
+      "invalid": "Formato de entrada inválido"
+    }
   }
 }
