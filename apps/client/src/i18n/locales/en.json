@@ -51,7 +51,11 @@
   "userMenu": {
     "profile": "Profile",
     "logout": "Logout",
-    "language": "Language"
+    "language": "Language",
+    "theme": "Theme",
+    "themeLight": "Light",
+    "themeDark": "Dark",
+    "themeSystem": "System"
   },
   "errors": {
     "EMAIL_ALREADY_EXISTS": "Email already registered",

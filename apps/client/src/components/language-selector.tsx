@@ -1,29 +1,26 @@
 import { useTranslation } from "react-i18next";
-import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 export function LanguageSelector() {
   const { i18n, t } = useTranslation();
 
-  const toggleLanguage = (checked: boolean) => {
-    const newLang = checked ? "en" : "es";
-    i18n.changeLanguage(newLang);
-  };
-
   return (
     <div className="flex items-center justify-between gap-2">
-      <Label htmlFor="language-switch" className="cursor-pointer text-sm">
+      <Label className="cursor-pointer text-sm">
         {t("userMenu.language")}
       </Label>
-      <div className="flex items-center gap-2">
-        <span className="text-muted-foreground text-xs">ES</span>
-        <Switch
-          id="language-switch"
-          checked={i18n.language === "en"}
-          onCheckedChange={toggleLanguage}
-        />
-        <span className="text-muted-foreground text-xs">EN</span>
-      </div>
+      <ToggleGroup
+        type="single"
+        value={i18n.language}
+        onValueChange={(value) => value && i18n.changeLanguage(value)}
+        variant="outline"
+        size="sm"
+      >
+        <ToggleGroupItem value="es">ES</ToggleGroupItem>
+        <ToggleGroupItem value="en">EN</ToggleGroupItem>
+        <ToggleGroupItem value="pt">PT</ToggleGroupItem>
+      </ToggleGroup>
     </div>
   );
 }

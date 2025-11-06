@@ -51,7 +51,11 @@
   "userMenu": {
     "profile": "Perfil",
     "logout": "Cerrar sesión",
-    "language": "Idioma"
+    "language": "Idioma",
+    "theme": "Tema",
+    "themeLight": "Claro",
+    "themeDark": "Oscuro",
+    "themeSystem": "Sistema"
   },
   "errors": {
     "EMAIL_ALREADY_EXISTS": "El correo electrónico ya está registrado",

@@ -44,7 +44,18 @@
       "passwordMin8": "A senha deve ter pelo menos 8 caracteres",
       "nameRequired": "O nome é obrigatório",
       "passwordsDontMatch": "As senhas não coincidem"
-    }
+    },
+    "loginButton": "Entrar",
+    "signupButton": "Cadastrar"
+  },
+  "userMenu": {
+    "profile": "Perfil",
+    "logout": "Sair",
+    "language": "Idioma",
+    "theme": "Tema",
+    "themeLight": "Claro",
+    "themeDark": "Escuro",
+    "themeSystem": "Sistema"
   },
   "common": {
     "emailPlaceholder": "email@exemplo.com",

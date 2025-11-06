@@ -1,4 +1,5 @@
 import { UserMenu } from "@/components/user-menu";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { GalleryVerticalEnd } from "lucide-react";
 
@@ -17,7 +18,10 @@ function RouteComponent() {
             </div>
             <span className="font-semibold text-lg">ACME</span>
           </Link>
-          <UserMenu />
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <UserMenu />
+          </div>
         </div>
       </header>
       <main>
