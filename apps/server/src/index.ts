@@ -16,6 +16,13 @@ const app = new Hono<{ Variables: Variables }>()
   .use(cors())
   .use(limiter);
 
+app.get("/", (c) => {
+  return c.json({
+    status: "ok",
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+  });
+});
 app.route("/auth", auth);
 app.route("/admin/users", users);
 app.route("/sessions", sessions);
