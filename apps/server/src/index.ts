@@ -9,12 +9,15 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
+import { serveStatic } from "hono/bun";
 
 const app = new Hono<{ Variables: Variables }>()
   .use(logger())
   .use(prettyJSON())
   .use(cors())
   .use(limiter);
+
+app.get("/favicon.ico", serveStatic({ path: "./favicon.ico" }));
 
 app.get("/", (c) => {
   return c.json({
