@@ -11,7 +11,7 @@ function RouteComponent() {
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b">
-        <div className="container mx-auto flex h-16 items-center justify-between">
+        <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <Link to="/" className="flex items-center gap-2 font-medium">
             <div className="bg-primary text-primary-foreground flex size-8 items-center justify-center rounded-md">
               <GalleryVerticalEnd className="size-5" />

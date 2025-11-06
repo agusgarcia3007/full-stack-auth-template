@@ -39,21 +39,21 @@ function RouteComponent() {
   };
 
   return (
-    <div className="container mx-auto max-w-6xl p-8">
-      <div className="mb-8">
-        <h1 className="font-bold text-3xl">{t("profile.title")}</h1>
-        <p className="text-muted-foreground">{t("profile.description")}</p>
+    <div className="container mx-auto max-w-6xl p-4 md:p-8">
+      <div className="mb-6 md:mb-8">
+        <h1 className="font-bold text-2xl md:text-3xl">{t("profile.title")}</h1>
+        <p className="text-muted-foreground text-sm md:text-base">{t("profile.description")}</p>
       </div>
 
       <Tabs value={tab} onValueChange={handleTabChange}>
-        <TabsList className="w-fit">
-          <TabsTrigger value="general">
+        <TabsList className="w-full md:w-fit grid grid-cols-2 md:flex">
+          <TabsTrigger value="general" className="gap-2">
             <User className="h-4 w-4" />
-            {t("profile.tabs.general")}
+            <span className="hidden sm:inline">{t("profile.tabs.general")}</span>
           </TabsTrigger>
-          <TabsTrigger value="sessions">
+          <TabsTrigger value="sessions" className="gap-2">
             <Smartphone className="h-4 w-4" />
-            {t("profile.tabs.sessions")}
+            <span className="hidden sm:inline">{t("profile.tabs.sessions")}</span>
           </TabsTrigger>
         </TabsList>
 
